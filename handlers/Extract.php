@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @package GPL Cart core
+ * @package Skeleton module
  * @author Iurii Makukh <gplcart.software@gmail.com>
  * @copyright Copyright (c) 2015, Iurii Makukh
  * @license https://www.gnu.org/licenses/gpl.html GNU/GPLv3
@@ -63,7 +63,7 @@ class Extract
         }
 
         if (!empty($extracted['success'])) {
-            $job['context']['extracted'] += $extracted['success'];
+            $job['context']['extracted'] = array_replace($job['context']['extracted'], $extracted['success']);
         }
 
         if (!empty($extracted['errors'])) {

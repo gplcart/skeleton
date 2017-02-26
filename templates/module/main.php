@@ -3,14 +3,14 @@
  * @author <?php echo $module['author']; ?> 
  * @author Skeleton https://github.com/gplcart/skeleton 
  * @copyright Copyright (c) <?php echo date('Y'); ?>, <?php echo $module['author']; ?> 
- * @license <?php echo $module['license']; ?> 
+ * @license <?php echo $module['license_url']; ?> 
  */
 
-namespace <?php echo $module['namespace']; ?>;
+namespace gplcart\modules\<?php echo $module['id']; ?>;
 
 /**
  * Main class for <?php echo $module['name']; ?> module
- * TODO: Check if the code properly formatted
+ * @todo Format the source code
  */
 class <?php echo $module['class_name']; ?> 
 {
@@ -26,7 +26,13 @@ class <?php echo $module['class_name']; ?>
             'version' => '<?php echo $module['version']; ?>',
             'description' => '<?php echo $module['description']; ?>',
             'author' => '<?php echo $module['author']; ?>',
-            'core' => '<?php echo $module['core']; ?>'
+            'core' => '<?php echo $module['core']; ?>',
+            'license' => '<?php echo $module['license']; ?>',
+            'dependencies' => array(),
+            'settings' => array(),
+            'configure' => '',
+            'type' => null,
+            'image' => '',
         );
     }
 <?php if(!empty($hooks)) { ?><?php foreach($hooks as $hook) { ?>

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @package Skeleton
+ * @package Skeleton module
  * @author Iurii Makukh <gplcart.software@gmail.com>
  * @copyright Copyright (c) 2015, Iurii Makukh
  * @license https://www.gnu.org/licenses/gpl.html GNU/GPLv3
@@ -23,7 +23,7 @@ class Skeleton
     {
         return array(
             'name' => 'Skeleton',
-            'version' => '1.0.0-alfa.1',
+            'version' => '1.0.0-alfa.2',
             'description' => 'A tool that allows developers to generate blank modules for different purposes',
             'author' => 'Iurii Makukh',
             'core' => '1.x'

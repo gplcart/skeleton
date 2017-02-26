@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @package Skeleton
+ * @package Skeleton module
  * @author Iurii Makukh <gplcart.software@gmail.com>
  * @copyright Copyright (c) 2015, Iurii Makukh
  * @license https://www.gnu.org/licenses/gpl.html GNU/GPLv3
@@ -96,10 +96,10 @@ class Extractor extends Model
             'theme' => $this->language->text('Theme setup, JS/CSS assets'),
             'library' => $this->language->text('3-d party libraries'),
             'route' => $this->language->text('URL routing'),
-            'cron' => $this->language->text('CRON executions'),
+            'cron' => $this->language->text('Scheduled operations'),
             'address' => $this->language->text('User addresses'),
-            'backup' => $this->language->text('Backup modules'),
-            'cart' => $this->language->text('Shopping carts'),
+            'backup' => $this->language->text('Backup'),
+            'cart' => $this->language->text('Shopping cart'),
             'category' => $this->language->text('Categories'),
             'city' => $this->language->text('Cities'),
             'collection' => $this->language->text('Collections'),
@@ -137,6 +137,7 @@ class Extractor extends Model
             'validator' => $this->language->text('Validating'),
             'wishlist' => $this->language->text('Wishlists'),
             'zone' => $this->language->text('Geo zones'),
+            'module' => $this->language->text('Modules'),
         );
 
         asort($items);
@@ -155,7 +156,8 @@ class Extractor extends Model
         $exploded = $this->prepareHookArguments(explode(',', $data['hook']), $data);
 
         // Shift hook name and trim single/double quotes from it
-        $name = preg_replace('/^(\'(.*)\'|"(.*)")$/', '$2$3', array_shift($exploded));
+        // Use strtok() to get everything before | which separates hook name and module ID
+        $name = strtok(preg_replace('/^(\'(.*)\'|"(.*)")$/', '$2$3', array_shift($exploded)), '|');
 
         $data['hook'] = array(
             'name' => $name,
@@ -203,7 +205,7 @@ class Extractor extends Model
         // Pager
         if (!empty($options['limit'])) {
             list($start, $length) = $options['limit'];
-            $scanned = array_slice($scanned, $start, $length);
+            $scanned = array_slice($scanned, $start, $length, true);
         }
 
         if (empty($scanned)) {
@@ -216,7 +218,6 @@ class Extractor extends Model
             foreach ($this->parse($file) as $extracted) {
 
                 $extracted['file'] = gplcart_relative_path($file);
-
                 $prepared = $this->prepareHook($extracted);
 
                 // Filter by scopes
@@ -225,11 +226,12 @@ class Extractor extends Model
                 }
 
                 // Test extracted class and method
-                if (method_exists($prepared['namespaced_class'], $prepared['function'])) {
-                    $success[] = $prepared;
-                } else {
-                    $errors[] = $prepared;
+                if (!method_exists($prepared['namespaced_class'], $prepared['function'])) {
+                    $errors[$prepared['hook']['name']] = $prepared;
+                    continue;
                 }
+
+                $success[$prepared['hook']['name']] = $prepared;
             }
         }
 

@@ -6,29 +6,19 @@
  * @license <?php echo $module['license_url']; ?> 
  */
  
-namespace gplcart\modules\<?php echo $module['id']; ?>\controllers;
-
-use gplcart\core\controllers\backend\Controller as BackendController;
+namespace gplcart\modules\<?php echo $module['id']; ?>\helpers;
 
 /**
- * Handles incoming requests and outputs data related to <?php echo $module['name']; ?> module
+ * Helper class for <?php echo $module['name']; ?> module
  * @todo Format the source code
  */
-class Settings extends BackendController
+class Helper
 {
 
     /**
      * Constructor
      */
     public function __construct()
-    {
-        parent::__construct();
-    }
-    
-    /**
-     * Route page callback to display module settings form
-     */
-    public function editSettings()
     {
         // Code
     }

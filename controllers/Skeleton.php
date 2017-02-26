@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @package GPL Cart core
+ * @package Skeleton module
  * @author Iurii Makukh <gplcart.software@gmail.com>
  * @copyright Copyright (c) 2015, Iurii Makukh
  * @license https://www.gnu.org/licenses/gpl.html GNU/GPLv3
@@ -46,11 +46,11 @@ class Skeleton extends BackendController
     }
 
     /**
-     * Displays the extractor page
+     * Displays the generate skeleton page
      */
     public function editSkeleton()
     {
-
+        $this->downloadSkeleton();
 
         $this->setTitleEditSkeleton();
         $this->setBreadcrumbEditSkeleton();
@@ -58,29 +58,42 @@ class Skeleton extends BackendController
         $hooks = gplcart_array_split($this->extractor->getHookScopes(), 2);
 
         $this->setData('hooks', $hooks);
-        $this->setData('licenses', $this->getLicenses());
+        $this->setData('licenses', $this->generator->getLicenses());
+
+        $author = $this->user('name') . ' <' . $this->user('email') . '>';
+        $this->setData('author', $author);
 
         $this->submitSkeleton();
         $this->setJob();
 
-        $this->generateSkeleton();
-
+        $this->generateFromJobSkeleton();
         $this->outputEditSkeleton();
     }
 
     /**
-     * Returns an array of licenses
-     * @return array
+     * Generate a module skeleton after hook extraction
+     * @return null
      */
-    protected function getLicenses()
+    protected function generateFromJobSkeleton()
     {
-        return array(
-            'MIT License' => 'https://opensource.org/licenses/MIT',
-            'Apache License 2.0' => 'https://www.apache.org/licenses/LICENSE-2.0',
-            '3-Clause BSD License' => 'https://opensource.org/licenses/BSD-3-Clause',
-            'GNU General Public License 3.0' => 'https://www.gnu.org/licenses/gpl-3.0.en.html',
-            'GNU Lesser General Public License' => 'https://www.gnu.org/licenses/lgpl-3.0.en.html'
-        );
+        if (!$this->isQuery('skeleton_hooks_extracted')) {
+            return null;
+        }
+
+        $job = $this->job->get('skeleton');
+
+        if (!isset($job['context']['extracted'])) {
+            return null;
+        }
+
+        $data = $job['data']['submitted'];
+        $data['hooks'] = $job['context']['extracted'];
+
+        if (!empty($job['errors'])) {
+            $this->setMessage($this->text('@num errors occurred during hook extraction'), 'warning', true);
+        }
+
+        $this->generateSkeleton($data);
     }
 
     /**
@@ -98,20 +111,21 @@ class Skeleton extends BackendController
      */
     protected function validateSkeleton()
     {
-
         $this->setSubmitted('skeleton');
         $this->validate('skeleton');
 
-        if ($this->isError()) {
+        if ($this->hasErrors('skeleton')) {
             return false;
         }
 
         $name = $this->getSubmitted('module.name');
+        $module_id = $this->getSubmitted('module.id');
 
         if (empty($name)) {
-            $this->setSubmitted('module.name', $this->getSubmitted('module.id'));
+            $this->setSubmitted('module.name', $module_id);
         }
 
+        gplcart_file_delete_recursive(GC_PRIVATE_DOWNLOAD_DIR . "/$module_id");
         return true;
     }
 
@@ -123,55 +137,49 @@ class Skeleton extends BackendController
         if ($this->isSubmitted('hooks')) {
             $this->setExtractionJobSkeleton();
         } else {
-            $this->generateSkeleton();
+            $this->generateSkeleton($this->getSubmitted());
         }
     }
 
     /**
      * Generate skeleton files
+     * @param array $data
      */
-    protected function generateSkeleton()
+    protected function generateSkeleton(array $data)
     {
-        $data = $this->getSubmittedSkeleton();
-
-        if (empty($data)) {
-            return null;
-        }
-
         $result = $this->generator->generate($data);
 
         if ($result === true) {
-            $this->redirect('', $this->text('Modules has been created'), 'success');
+            $file = urlencode(base64_encode($this->generator->getZip()));
+            $vars = array('@url' => $this->url('', array('download' => $file)));
+            $this->redirect('', $this->text('Skeleton has been created. <a href="@url">Download</a>', $vars), 'success');
         }
 
-        $vars = array('!errors' => implode('<br>', (array) $result));
-        $message = $this->text('One or more errors occurred while creating modules:!errors', $vars);
+        $errors = empty($result) ? '' : implode('<br>', (array) $result);
+        $vars = array('!errors' => $errors);
+        $message = $this->text('One or more errors occurred while creating skeleton!errors', $vars);
         $this->redirect('', $message, 'warning');
     }
 
     /**
-     * Get data either from submitted form or finished job
-     * @return array
+     * Output generated skeleton to download
+     * @return null
      */
-    protected function getSubmittedSkeleton()
+    protected function downloadSkeleton()
     {
-        $data = $this->getSubmitted();
+        $path = $this->request->get('download');
 
-        if ($this->isQuery('skeleton_hooks_extracted')) {
-
-            $job = $this->job->get('skeleton');
-            if (!isset($job['context']['extracted'])) {
-                return null;
-            }
-
-            $data = $job['data']['submitted'];
-            $data['hooks'] = $job['context']['extracted'];
-            if (!empty($job['errors'])) {
-                $this->setMessage($this->text('@num errors occurred during hook extraction'), 'warning', true);
-            }
+        if (empty($path)) {
+            return null;
         }
 
-        return $data;
+        $file = base64_decode(urldecode($path));
+
+        if (!is_file($file) || !is_readable($file)) {
+            $this->outputHttpStatus(404);
+        }
+
+        $this->response->download($file);
     }
 
     /**
@@ -181,11 +189,14 @@ class Skeleton extends BackendController
     {
         $job = array(
             'id' => 'skeleton',
-            'data' => array('submitted' => $this->getSubmitted()),
             'total' => $this->getTotalExtractSkeleton(),
+            'data' => array('submitted' => $this->getSubmitted()),
             'redirect' => array(
                 'finish' => $this->url('', array('skeleton_hooks_extracted' => 1))
-            )
+            ),
+            'message' => array(
+                'process' => $this->text('Extracting hooks from the source files...'),
+            ),
         );
 
         $this->job->submit($job);
@@ -214,7 +225,7 @@ class Skeleton extends BackendController
     }
 
     /**
-     * Set title on the edit module page
+     * Set title on the generate skeleton page
      */
     protected function setTitleEditSkeleton()
     {
@@ -222,7 +233,7 @@ class Skeleton extends BackendController
     }
 
     /**
-     * Render and output the edit module page
+     * Render and output the generate skeleton page
      */
     protected function outputEditSkeleton()
     {

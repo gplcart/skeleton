@@ -36,7 +36,7 @@ class Validator extends BaseValidator
     }
 
     /**
-     * Validates an array of submitted data while creating a module
+     * Validates an array of submitted data while creating a skeleton
      * @param array $submitted
      * @param array $options
      * @return boolean|array
@@ -49,8 +49,27 @@ class Validator extends BaseValidator
         $this->validateModuleIdSkeleton();
         $this->validateModuleVersionSkeleton();
         $this->validateModuleCoreSkeleton();
+        $this->validateModuleAuthorSkeleton();
 
         return $this->getResult();
+    }
+
+    /**
+     * Validates module author name
+     * @return boolean
+     */
+    protected function validateModuleAuthorSkeleton()
+    {
+        $value = $this->getSubmitted('module.author');
+
+        if (empty($value)) {
+            $vars = array('@field' => $this->language->text('Author'));
+            $error = $this->language->text('@field is required', $vars);
+            $this->setError('module.author', $error);
+            return false;
+        }
+
+        return true;
     }
 
     /**

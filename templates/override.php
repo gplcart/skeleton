@@ -14,7 +14,7 @@ use gplcart\modules\<?php echo $module['id']; ?>\<?php echo $module['class_name'
  * Overrides <?php echo $module['name']; ?> module info() method
  * @todo Format the source code
  */
-class <?php echo $module['class_name']; ?>ModuleOverride extends <?php echo $module['class_name']; ?>Module
+class <?php echo $module['class_name']; ?>Override extends <?php echo $module['class_name']; ?>Module
 {
 
     /**

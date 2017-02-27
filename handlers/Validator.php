@@ -93,15 +93,6 @@ class Validator extends BaseValidator
             return false;
         }
 
-        $modules = $this->config->getModules();
-
-        if (isset($modules[$value])) {
-            $vars = array('@name' => $this->language->text('ID'));
-            $error = $this->language->text('@name already exists', $vars);
-            $this->setError('module.id', $error);
-            return false;
-        }
-
         return true;
     }
 

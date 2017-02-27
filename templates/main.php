@@ -14,6 +14,14 @@ namespace gplcart\modules\<?php echo $module['id']; ?>;
  */
 class <?php echo $module['class_name']; ?> 
 {
+    /**
+     * Constructor
+     * Inject your dependencies here
+     */
+    public function __construct()
+    {
+      // Your code
+    }
 
     /**
      * Module info
@@ -28,11 +36,14 @@ class <?php echo $module['class_name']; ?>
             'author' => '<?php echo $module['author']; ?>',
             'core' => '<?php echo $module['core']; ?>',
             'license' => '<?php echo $module['license']; ?>',
-            'dependencies' => array(),
-            'settings' => array(),
-            'configure' => '',
-            'type' => null,
-            'image' => '',
+            //'dependencies' => array(),
+            //'settings' => array(),
+            //'configure' => '',
+            //'type' => 'module',
+            //'image' => '',
+            //'id' => 'another_id',
+            //'key' => '',
+            //'directory' => ''
         );
     }
 <?php if(!empty($hooks)) { ?><?php foreach($hooks as $hook) { ?>

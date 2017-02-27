@@ -171,7 +171,7 @@ class Generator extends Model
         $result = $this->prepareFolder($folder);
 
         if ($result === true) {
-            return $this->write("$folder/Settings.php", 'module/controller', $data);
+            return $this->write("$folder/Settings.php", 'controller', $data);
         }
         return $result;
     }
@@ -190,7 +190,7 @@ class Generator extends Model
             return $result;
         }
 
-        return $this->write("$folder/{$data['module']['class_name']}.php", 'module/main', $data);
+        return $this->write("$folder/{$data['module']['class_name']}.php", 'main', $data);
     }
 
     /**
@@ -204,7 +204,7 @@ class Generator extends Model
         $result = $this->prepareFolder($folder);
 
         if ($result === true) {
-            return $this->write("$folder/Model.php", 'module/model', $data);
+            return $this->write("$folder/Model.php", 'model', $data);
         }
         return $result;
     }
@@ -221,7 +221,7 @@ class Generator extends Model
         $result = $this->prepareFolder($folder);
 
         if ($result === true) {
-            return $this->write("$folder/Helper.php", 'module/helper', $data);
+            return $this->write("$folder/Helper.php", 'helper', $data);
         }
 
         return $result;
@@ -238,7 +238,7 @@ class Generator extends Model
         $result = $this->prepareFolder($folder);
 
         if ($result === true) {
-            return $this->write("$folder/Handler.php", 'module/handler', $data);
+            return $this->write("$folder/Handler.php", 'handler', $data);
         }
 
         return $result;
@@ -255,7 +255,7 @@ class Generator extends Model
         $result = $this->prepareFolder($folder);
 
         if ($result === true) {
-            return $this->write("$folder/{$data['module']['class_name']}Override.php", 'module/override', $data);
+            return $this->write("$folder/{$data['module']['class_name']}Override.php", 'override', $data);
         }
 
         return $result;
@@ -272,7 +272,7 @@ class Generator extends Model
         $result = $this->prepareFolder($folder);
 
         if ($result === true) {
-            return $this->write("$folder/template.php", 'module/template', $data);
+            return $this->write("$folder/template.php", 'template', $data);
         }
         return $result;
     }

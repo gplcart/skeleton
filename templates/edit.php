@@ -151,37 +151,37 @@
           </div>
           <div class="checkbox">
             <label>
-              <input type="checkbox" value="controller" name="skeleton[structure][]"<?php echo empty($skeleton['structure']['controller']) ? '' : ' checked'; ?>> <?php echo $this->text('Create sample controller'); ?>
+              <input type="checkbox" value="controller" name="skeleton[structure][]"<?php echo isset($skeleton['structure']) && in_array('controller', $skeleton['structure']) ? ' checked' : ''; ?>> <?php echo $this->text('Creat checkede sample controller'); ?>
             </label>
             <div class="help-block"><?php echo $this->text('Controllers provide callbacks for URL routes and interact with browser or external resources'); ?></div>
           </div>
           <div class="checkbox">
             <label>
-              <input type="checkbox" value="helper" name="skeleton[structure][]"<?php echo empty($skeleton['structure']['helper']) ? '' : ' checked'; ?>> <?php echo $this->text('Create sample helper'); ?>
+              <input type="checkbox" value="helper" name="skeleton[structure][]"<?php echo isset($skeleton['structure']) && in_array('helper', $skeleton['structure']) ? ' checked' : ''; ?>> <?php echo $this->text('Create sample helper'); ?>
             </label>
             <div class="help-block"><?php echo $this->text('Helper classes provide independent reusable methods to be used everywhere'); ?></div>
           </div>
           <div class="checkbox">
             <label>
-              <input type="checkbox" value="handler" name="skeleton[structure][]"<?php echo empty($skeleton['structure']['handler']) ? '' : ' checked'; ?>> <?php echo $this->text('Create sample handler'); ?>
+              <input type="checkbox" value="handler" name="skeleton[structure][]"<?php echo isset($skeleton['structure']) && in_array('handler', $skeleton['structure']) ? ' checked' : ''; ?>> <?php echo $this->text('Create sample handler'); ?>
             </label>
             <div class="help-block"><?php echo $this->text('Handler classes are defined in hooks and focused on certain tasks, e.g validating'); ?></div>
           </div>
           <div class="checkbox">
             <label>
-              <input type="checkbox" value="template" name="skeleton[structure][]"<?php echo empty($skeleton['structure']['template']) ? '' : ' checked'; ?>> <?php echo $this->text('Create sample template'); ?>
+              <input type="checkbox" value="template" name="skeleton[structure][]"<?php echo isset($skeleton['structure']) && in_array('template', $skeleton['structure']) ? ' checked' : ''; ?>> <?php echo $this->text('Create sample template'); ?>
             </label>
             <div class="help-block"><?php echo $this->text('Templates display various data from controllers to users'); ?></div>
           </div>
           <div class="checkbox">
             <label>
-              <input type="checkbox" value="model" name="skeleton[structure][]"<?php echo empty($skeleton['structure']['model']) ? '' : ' checked'; ?>> <?php echo $this->text('Create sample model'); ?>
+              <input type="checkbox" value="model" name="skeleton[structure][]"<?php echo isset($skeleton['structure']) && in_array('model', $skeleton['structure']) ? ' checked' : ''; ?>> <?php echo $this->text('Create sample model'); ?>
             </label>
             <div class="help-block"><?php echo $this->text('Models provide a business logic and can interact with database'); ?></div>
           </div>
           <div class="checkbox">
             <label>
-              <input type="checkbox" value="override" name="skeleton[structure][]"<?php echo empty($skeleton['structure']['override']) ? '' : ' checked'; ?>> <?php echo $this->text('Create sample overridden method'); ?>
+              <input type="checkbox" value="override" name="skeleton[structure][]"<?php echo isset($skeleton['structure']) && in_array('override', $skeleton['structure']) ? ' checked' : ''; ?>> <?php echo $this->text('Create sample overridden method'); ?>
             </label>
             <div class="help-block"><?php echo $this->text('Overriding allows developers to adjust core methods without touching source files'); ?></div>
           </div>

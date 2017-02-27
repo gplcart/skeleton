@@ -204,7 +204,7 @@ class Generator extends Model
         $result = $this->prepareFolder($folder);
 
         if ($result === true) {
-            return $this->write("$folder/Model.php", 'model', $data);
+            return $this->write("$folder/{$data['module']['class_name']}.php", 'model', $data);
         }
         return $result;
     }
@@ -221,7 +221,7 @@ class Generator extends Model
         $result = $this->prepareFolder($folder);
 
         if ($result === true) {
-            return $this->write("$folder/Helper.php", 'helper', $data);
+            return $this->write("$folder/{$data['module']['class_name']}.php", 'helper', $data);
         }
 
         return $result;
@@ -238,7 +238,7 @@ class Generator extends Model
         $result = $this->prepareFolder($folder);
 
         if ($result === true) {
-            return $this->write("$folder/Handler.php", 'handler', $data);
+            return $this->write("$folder/{$data['module']['class_name']}.php", 'handler', $data);
         }
 
         return $result;
@@ -272,7 +272,7 @@ class Generator extends Model
         $result = $this->prepareFolder($folder);
 
         if ($result === true) {
-            return $this->write("$folder/template.php", 'template', $data);
+            return $this->write("$folder/settings.php", 'template', $data);
         }
         return $result;
     }

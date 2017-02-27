@@ -12,7 +12,7 @@ namespace gplcart\modules\<?php echo $module['id']; ?>\handlers;
  * Handler for <?php echo $module['name']; ?> module 
  * @todo Format the source code
  */
-class Handler
+class <?php echo $module['class_name']; ?> 
 {
 
     /**

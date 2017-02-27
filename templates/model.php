@@ -14,7 +14,7 @@ use gplcart\core\Model as CoreModel;
  * Manages basic behaviors and data related to <?php echo $module['name']; ?> module
  * @todo Format the source code
  */
-class Model extends CoreModel
+class <?php echo $module['class_name']; ?> extends CoreModel
 {
     /**
      * Constructor

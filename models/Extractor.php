@@ -159,6 +159,12 @@ class Extractor extends Model
         // Use strtok() to get everything before | which separates hook name and module ID
         $name = strtok(preg_replace('/^(\'(.*)\'|"(.*)")$/', '$2$3', array_shift($exploded)), '|');
 
+        array_walk($exploded, function(&$param) {
+            if (strpos($param, '$') === 0) {
+                $param = "&$param";
+            }
+        });
+
         $data['hook'] = array(
             'name' => $name,
             'arguments' => $exploded,

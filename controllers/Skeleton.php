@@ -147,18 +147,13 @@ class Skeleton extends BackendController
      */
     protected function generateSkeleton(array $data)
     {
-        $result = $this->generator->generate($data);
-
-        if ($result === true) {
-            $file = urlencode(base64_encode($this->generator->getZip()));
-            $vars = array('@url' => $this->url('', array('download' => $file)));
-            $this->redirect('', $this->text('Skeleton has been created. <a href="@url">Download</a>', $vars), 'success');
+        if (!$this->generator->generate($data)) {
+            $this->redirect('', $this->text('An error occurred'), 'warning');
         }
 
-        $errors = empty($result) ? '' : implode('<br>', (array) $result);
-        $vars = array('!errors' => $errors);
-        $message = $this->text('One or more errors occurred while creating skeleton!errors', $vars);
-        $this->redirect('', $message, 'warning');
+        $file = urlencode(base64_encode($this->generator->getZip()));
+        $vars = array('@url' => $this->url('', array('download' => $file)));
+        $this->redirect('', $this->text('Skeleton has been created. <a href="@url">Download</a>', $vars), 'success');
     }
 
     /**

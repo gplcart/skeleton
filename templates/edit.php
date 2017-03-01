@@ -157,31 +157,37 @@
           </div>
           <div class="checkbox">
             <label>
-              <input type="checkbox" value="helper" name="skeleton[structure][]"<?php echo isset($skeleton['structure']) && in_array('helper', $skeleton['structure']) ? ' checked' : ''; ?>> <?php echo $this->text('Create sample helper'); ?>
+              <input type="checkbox" value="helper" name="skeleton[structure][]"<?php echo isset($skeleton['structure']) && in_array('helper', $skeleton['structure']) ? ' checked' : ''; ?>> <?php echo $this->text('Use helpers'); ?>
             </label>
             <div class="help-block"><?php echo $this->text('Helper classes provide independent reusable methods to be used everywhere'); ?></div>
           </div>
           <div class="checkbox">
             <label>
-              <input type="checkbox" value="handler" name="skeleton[structure][]"<?php echo isset($skeleton['structure']) && in_array('handler', $skeleton['structure']) ? ' checked' : ''; ?>> <?php echo $this->text('Create sample handler'); ?>
+              <input type="checkbox" value="handler" name="skeleton[structure][]"<?php echo isset($skeleton['structure']) && in_array('handler', $skeleton['structure']) ? ' checked' : ''; ?>> <?php echo $this->text('Use handlers'); ?>
             </label>
             <div class="help-block"><?php echo $this->text('Handler classes are defined in hooks and focused on certain tasks, e.g validating'); ?></div>
           </div>
           <div class="checkbox">
             <label>
-              <input type="checkbox" value="template" name="skeleton[structure][]"<?php echo isset($skeleton['structure']) && in_array('template', $skeleton['structure']) ? ' checked' : ''; ?>> <?php echo $this->text('Create sample template'); ?>
+              <input type="checkbox" value="template" name="skeleton[structure][]"<?php echo isset($skeleton['structure']) && in_array('template', $skeleton['structure']) ? ' checked' : ''; ?>> <?php echo $this->text('Use templates'); ?>
             </label>
             <div class="help-block"><?php echo $this->text('Templates display various data from controllers to users'); ?></div>
           </div>
           <div class="checkbox">
             <label>
-              <input type="checkbox" value="model" name="skeleton[structure][]"<?php echo isset($skeleton['structure']) && in_array('model', $skeleton['structure']) ? ' checked' : ''; ?>> <?php echo $this->text('Create sample model'); ?>
+              <input type="checkbox" value="model" name="skeleton[structure][]"<?php echo isset($skeleton['structure']) && in_array('model', $skeleton['structure']) ? ' checked' : ''; ?>> <?php echo $this->text('Use models'); ?>
             </label>
             <div class="help-block"><?php echo $this->text('Models provide a business logic and can interact with database'); ?></div>
           </div>
           <div class="checkbox">
             <label>
-              <input type="checkbox" value="override" name="skeleton[structure][]"<?php echo isset($skeleton['structure']) && in_array('override', $skeleton['structure']) ? ' checked' : ''; ?>> <?php echo $this->text('Create sample overridden method'); ?>
+              <input type="checkbox" value="asset" name="skeleton[structure][]"<?php echo isset($skeleton['structure']) && in_array('asset', $skeleton['structure']) ? ' checked' : ''; ?>> <?php echo $this->text('Use assets'); ?>
+            </label>
+            <div class="help-block"><?php echo $this->text('Assets are JS/CSS files and images. Required for theme modules'); ?></div>
+          </div>
+          <div class="checkbox">
+            <label>
+              <input type="checkbox" value="override" name="skeleton[structure][]"<?php echo isset($skeleton['structure']) && in_array('override', $skeleton['structure']) ? ' checked' : ''; ?>> <?php echo $this->text('Use overrides'); ?>
             </label>
             <div class="help-block"><?php echo $this->text('Overriding allows developers to adjust core methods without touching source files'); ?></div>
           </div>

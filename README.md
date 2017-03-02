@@ -1,3 +1,4 @@
+[![Build Status](https://scrutinizer-ci.com/g/gplcart/skeleton/badges/build.png?b=master)](https://scrutinizer-ci.com/g/gplcart/skeleton/build-status/master)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/gplcart/skeleton/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/gplcart/skeleton/?branch=master)
 
 Skeleton is a [GPL Cart](https://github.com/gplcart/gplcart) module that allows developers to generate blank modules with predefined class and folder structure  depending on your needs. It also extracts hooks from the source files within selected scopes and creates the corresponding methods, so you don't need to learn too much about API.

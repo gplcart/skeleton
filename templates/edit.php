@@ -151,7 +151,7 @@
           </div>
           <div class="checkbox">
             <label>
-              <input type="checkbox" value="controller" name="skeleton[structure][]"<?php echo isset($skeleton['structure']) && in_array('controller', $skeleton['structure']) ? ' checked' : ''; ?>> <?php echo $this->text('Creat checkede sample controller'); ?>
+              <input type="checkbox" value="controller" name="skeleton[structure][]"<?php echo isset($skeleton['structure']) && in_array('controller', $skeleton['structure']) ? ' checked' : ''; ?>> <?php echo $this->text('Use controllers'); ?>
             </label>
             <div class="help-block"><?php echo $this->text('Controllers provide callbacks for URL routes and interact with browser or external resources'); ?></div>
           </div>

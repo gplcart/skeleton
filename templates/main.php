@@ -52,7 +52,7 @@ class <?php echo $module['class_name']; ?>
      * @uses \<?php echo $hook['namespaced_class']; ?>::<?php echo $hook['function']; ?> 
      * @see <?php echo $hook['file']; ?> 
 <?php if(!empty($hook['hook']['arguments'])) {?><?php foreach($hook['hook']['arguments'] as $argument) { ?>
-     * @param mixed <?php echo $argument; ?> 
+     * @param mixed <?php echo ltrim($argument, '&'); ?> 
 <?php } ?><?php } ?>
      */
     public function hook<?php echo $hook['hook']['uppercase_name']; ?>(<?php echo implode(', ', $hook['hook']['arguments']); ?>)

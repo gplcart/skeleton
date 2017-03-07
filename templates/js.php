@@ -1,6 +1,8 @@
 /* global window, GplCart, jQuery */
 (function (window, GplCart, $) {
 
+    "use strict";
+
     /**
      * This function will be called once DOM is ready
      * GplCart.onload is a full equivalent of $(document).ready(function(){});

@@ -41,7 +41,6 @@ class <?php echo $module['class_name']; ?>
             //'configure' => '',
             //'type' => 'module',
             //'image' => '',
-            //'id' => 'another_id',
             //'key' => '',
             //'directory' => ''
         );

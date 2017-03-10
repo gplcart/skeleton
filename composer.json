@@ -1,0 +1,23 @@
+{
+    "name": "gplcart/skeleton",
+    "type": "gplcart-module",
+    "description": "A tool to dramatically speed up developing GPL cart modules",
+    "keywords": ["gplcart", "ecommerce", "shopping cart", "gplcart-module"],
+    "homepage": "https://github.com/gplcart/skeleton",
+    "license": "GPL-3.0",
+    "authors": [
+        {
+            "name": "Iurii Makukh",
+            "email": "gplcart.software@gmail.com",
+            "role": "lead"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/gplcart/skeleton/issues"
+    },
+    "require": {
+        "gplcart/composer-module-installer": "*"
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}

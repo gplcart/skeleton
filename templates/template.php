@@ -6,4 +6,4 @@
  * @license <?php echo $module['license_url']; ?> 
  */
  ?>
-Template sample for module <?php echo $module['name']; ?>
+It works!

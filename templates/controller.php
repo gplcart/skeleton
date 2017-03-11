@@ -26,10 +26,18 @@ class Settings extends BackendController
     }
     
     /**
-     * Route page callback to display module settings form
+     * Route page callback to display the module settings page
      */
     public function editSettings()
     {
-        // Code
+        $this->outputEditSettings();
+    }
+    
+    /**
+     * Render and output the module settings page
+     */
+    protected function outputEditSettings()
+    {
+      $this->output('<?php echo $module['id']; ?>|settings');
     }
 }

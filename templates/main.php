@@ -35,10 +35,12 @@ class <?php echo $module['class_name']; ?>
             'description' => '<?php echo $module['description']; ?>',
             'author' => '<?php echo $module['author']; ?>',
             'core' => '<?php echo $module['core']; ?>',
-            'license' => '<?php echo $module['license']; ?>',
+            'license' => '<?php echo $module['license']; ?>', 
+<?php if(!empty($structure) && in_array('configurable', $structure)) { ?>
+            'configure' => 'admin/module/settings/<?php echo $module['id']; ?>', 
+<?php } ?>
             //'dependencies' => array(),
             //'settings' => array(),
-            //'configure' => '',
             //'type' => 'module',
             //'image' => '',
             //'key' => '',
@@ -57,7 +59,17 @@ class <?php echo $module['class_name']; ?>
      */
     public function hook<?php echo $hook['hook']['uppercase_name']; ?>(<?php echo implode(', ', $hook['hook']['arguments']); ?>)
     {
+<?php if($hook['hook']['uppercase_name'] == 'RouteList' && !empty($structure) && in_array('configurable', $structure)) { ?>
+        // Module settings page
+        $routes['admin/module/settings/<?php echo $module['id']; ?>'] = array(
+            'access' => 'module_edit',
+            'handlers' => array(
+                'controller' => array('gplcart\\modules\\<?php echo $module['id']; ?>\\controllers\\Settings', 'editSettings')
+            )
+        );
+<?php } else { ?>
         // Your code
+<?php } ?>   
     }
 <?php } ?><?php } ?>
 }

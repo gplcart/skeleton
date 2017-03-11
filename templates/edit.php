@@ -120,7 +120,7 @@
             <div class="col-md-6">
               <div class="checkbox">
                 <label>
-                  <input type="checkbox" onclick="$('[name=\'skeleton[hooks][]\']').prop('checked', $(this).prop('checked'));"> <?php echo $this->text('All'); ?>
+                  <input type="checkbox" name="all-hooks"> <?php echo $this->text('All'); ?>
                 </label>
               </div>
             </div>
@@ -146,8 +146,14 @@
           <p><?php echo $this->text('Extra options to setup your module the best way. Although GPL Cart has no strict requirements on how to organize your classes, it\'s recommended to follow common rules'); ?></p>
           <div class="checkbox">
             <label>
-              <input type="checkbox" onclick="$('[name=\'skeleton[structure][]\']').prop('checked', $(this).prop('checked'));"> <?php echo $this->text('All'); ?>
+              <input type="checkbox" name="all-structure"> <?php echo $this->text('All'); ?>
             </label>
+          </div>
+          <div class="checkbox">
+            <label>
+              <input type="checkbox" value="configurable" name="skeleton[structure][]"<?php echo isset($skeleton['configurable']) && in_array('configurable', $skeleton['structure']) ? ' checked' : ''; ?>> <?php echo $this->text('Configurable'); ?>
+            </label>
+            <div class="help-block"><?php echo $this->text('Has configurable settings which can be adjusted on a separate page'); ?></div>
           </div>
           <div class="checkbox">
             <label>
@@ -201,6 +207,26 @@
     </div>
   </div>
 </form>
+<script>
+$(function() {
+    
+    $('[name="all-structure"]').click(function(){
+       $('[name="skeleton[structure][]"]').prop('checked', $(this).prop('checked')); 
+    });
+    
+    $('[name="all-hooks"]').click(function(){
+       $('[name="skeleton[hooks][]"]').prop('checked', $(this).prop('checked')); 
+    });
+    
+    $('[name="skeleton[structure][]"][value="configurable"]').click(function(){
+        if($(this).is(':checked')) {
+            $('[name="skeleton[hooks][]"][value="route"]').prop('checked', true);
+            $('[name="skeleton[structure][]"][value="template"]').prop('checked', true);
+            $('[name="skeleton[structure][]"][value="controller"]').prop('checked', true);
+        }
+    });
+});
+</script>
 <?php if (!empty($job)) { ?>
     <?php echo $job; ?>
 <?php } ?>

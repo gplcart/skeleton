@@ -8,19 +8,22 @@
 
 namespace gplcart\modules\<?php echo $module['id']; ?>;
 
+use gplcart\core\Module;
+
 /**
  * Main class for <?php echo $module['name']; ?> module
  * @todo Format the source code
  */
-class <?php echo $module['class_name']; ?> 
+class <?php echo $module['class_name']; ?> extends Module 
 {
     /**
      * Constructor
-     * Inject your dependencies here
      */
     public function __construct()
     {
-      // Your code
+      // WARNING: The constructor is called on each request.
+      // Instantiating module specific classes here may cause performance issues
+      // Use $this->getInstance('namespace\\YourClass'); to get a class instance right in your methods
     }
 
     /**

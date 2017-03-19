@@ -9,11 +9,18 @@
 
 namespace gplcart\modules\skeleton;
 
+use gplcart\core\Module;
+
 /**
  * Main class for Skeleton module
  */
-class Skeleton
+class Skeleton extends Module
 {
+    
+    public function __construct()
+    {
+        parent::__construct();
+    }
 
     /**
      * Module info

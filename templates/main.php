@@ -21,8 +21,10 @@ class <?php echo $module['class_name']; ?> extends Module
      */
     public function __construct()
     {
-      // WARNING: The constructor is called on each request.
-      // Instantiating module specific classes here may cause performance issues
+        parent::__construct();
+       
+      // WARNING: This constructor is called on each request.
+      // Instantiating module specific classes here may cause site-wide performance issues
       // Use $this->getInstance('namespace\\YourClass'); to get a class instance right in your methods
     }
 
@@ -45,9 +47,7 @@ class <?php echo $module['class_name']; ?> extends Module
             //'dependencies' => array(),
             //'settings' => array(),
             //'type' => 'module',
-            //'image' => '',
-            //'key' => '',
-            //'directory' => ''
+            //'image' => ''
         );
     }
 <?php if(!empty($hooks)) { ?><?php foreach($hooks as $hook) { ?>

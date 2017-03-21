@@ -30,7 +30,54 @@ class Settings extends BackendController
      */
     public function editSettings()
     {
+        $this->setTitleEditSettings();
+        $this->setBreadcrumbEditSettings();
+    
+        $this->setData('settings', $this->config->module('<?php echo $module['id']; ?>'));
+        
+        $this->submitSettings();
+        
         $this->outputEditSettings();
+    }
+    
+    /**
+     * Set title on the module settings page
+     */
+    protected function setTitleEditSettings()
+    {
+        $vars = array('%name' => $this->text('<?php echo $module['name']; ?>'));
+        $title = $this->text('Edit %name settings', $vars);
+        $this->setTitle($title);
+    }
+    
+    /**
+     * Set breadcrumbs on the module settings page
+     */
+    protected function setBreadcrumbEditSettings()
+    {
+        $breadcrumbs = array();
+
+        $breadcrumbs[] = array(
+            'text' => $this->text('Dashboard'),
+            'url' => $this->url('admin')
+        );
+
+        $breadcrumbs[] = array(
+            'text' => $this->text('Modules'),
+            'url' => $this->url('admin/module/list')
+        );
+
+        $this->setBreadcrumbs($breadcrumbs);
+    }
+    
+    /**
+     * Saves the submitted settings
+     */
+    protected function submitSettings()
+    {
+        if ($this->isPosted('save')) {
+            // Save settings
+        }
     }
     
     /**

@@ -49,7 +49,7 @@ class Extract
         }
 
         $options = array(
-            'directory' => GC_ROOT_DIR,
+            'directory' => GC_CORE_DIR,
             'limit' => array($job['context']['offset'], self::LIMIT),
             'scopes' => empty($job['data']['submitted']['hooks']) ? array() : $job['data']['submitted']['hooks']
         );

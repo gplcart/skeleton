@@ -8,6 +8,7 @@
  
 namespace gplcart\modules\<?php echo $module['id']; ?>\controllers;
 
+use gplcart\core\models\Module as ModuleModel;
 use gplcart\core\controllers\backend\Controller as BackendController;
 
 /**
@@ -18,11 +19,19 @@ class Settings extends BackendController
 {
 
     /**
-     * Constructor
+     * Module model instance
+     * @var \gplcart\core\models\Module $module
      */
-    public function __construct()
+    protected $module;
+
+    /**
+     * @param ModuleModel $module
+     */
+    public function __construct(ModuleModel $module)
     {
         parent::__construct();
+        
+        $this->module = $module;
     }
     
     /**
@@ -36,7 +45,6 @@ class Settings extends BackendController
         $this->setData('settings', $this->config->module('<?php echo $module['id']; ?>'));
         
         $this->submitSettings();
-        
         $this->outputEditSettings();
     }
     
@@ -75,9 +83,35 @@ class Settings extends BackendController
      */
     protected function submitSettings()
     {
-        if ($this->isPosted('save')) {
-            // Save settings
+        if ($this->isPosted('save') && $this->validateSettings()) {
+            $this->updateSettings();
         }
+    }
+    
+    /**
+     * Validate submitted module settings
+     */
+    protected function validateSettings()
+    {
+        $this->setSubmitted('settings');
+        
+        /*
+        if ($this->getSubmitted('name', '') === '') {
+            $this->setError('name', $this->text('Name is required'));
+        }
+         */
+
+        return !$this->hasErrors('settings');
+    }
+    
+    /**
+     * Update module settings
+     */
+    protected function updateSettings()
+    {
+        $this->controlAccess('module_edit');
+        $this->module->setSettings('<?php echo $module['id']; ?>', $this->getSubmitted());
+        $this->redirect('', $this->text('Settings have been updated'), 'success');
     }
     
     /**

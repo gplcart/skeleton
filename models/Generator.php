@@ -76,6 +76,18 @@ class Generator extends Model
     protected $file;
 
     /**
+     * The current module folder
+     * @var string
+     */
+    protected $folder;
+
+    /**
+     * An array of module data
+     * @var array
+     */
+    protected $data = array();
+
+    /**
      * Constructor
      * @param ZipHelper $zip
      */
@@ -93,184 +105,179 @@ class Generator extends Model
     public function getLicenses()
     {
         return array(
-            'GNU General Public License 3.0' => 'https://www.gnu.org/licenses/gpl-3.0.en.html',
-            'MIT License' => 'https://opensource.org/licenses/MIT',
-            'Apache License 2.0' => 'https://www.apache.org/licenses/LICENSE-2.0',
-            '3-Clause BSD License' => 'https://opensource.org/licenses/BSD-3-Clause',
-            'GNU Lesser General Public License' => 'https://www.gnu.org/licenses/lgpl-3.0.en.html'
+            'GPL-3.0+' => 'https://www.gnu.org/licenses/gpl-3.0.en.html',
+            'MIT' => 'https://opensource.org/licenses/MIT',
+            'Apache-2.0' => 'https://www.apache.org/licenses/LICENSE-2.0',
+            'BSD-3-Clause' => 'https://opensource.org/licenses/BSD-3-Clause'
         );
     }
 
     /**
      * Generates module files and folders
      * @param array $data
+     * @return bool
      */
     public function generate(array $data)
     {
-        $this->prepareData($data);
+        $this->setData($data);
 
-        $folder = $this->getModuleFolder($data['module']['id']);
-        $this->createMainClass($folder, $data);
-
-        if (!empty($data['structure'])) {
-            $this->createStructure($folder, $data);
+        if (!$this->setModuleFolder()) {
+            return false;
         }
 
-        return $this->createZip($folder, $data);
+        $this->createMainClass();
+
+        if (!empty($this->data['structure'])) {
+            $this->createStructure();
+        }
+
+        return $this->createZip();
     }
 
     /**
      * Creates various structure elements
-     * @param string $folder
-     * @param array $data
      */
-    protected function createStructure($folder, array $data)
+    protected function createStructure()
     {
-        foreach ($data['structure'] as $element) {
+        foreach ($this->data['structure'] as $element) {
             switch ($element) {
                 case 'controller' :
-                    $this->createStructureController($folder, $data);
+                    $this->createStructureController();
                     break;
                 case 'model':
-                    $this->createStructureModel($folder, $data);
+                    $this->createStructureModel();
                     break;
                 case 'helper':
-                    $this->createStructureHelper($folder, $data);
+                    $this->createStructureHelper();
                     break;
                 case 'handler':
-                    $this->createStructureHandler($folder, $data);
+                    $this->createStructureHandler();
                     break;
                 case 'override':
-                    $this->createStructureOverride($folder, $data);
+                    $this->createStructureOverride();
                     break;
                 case 'template':
-                    $this->createStructureTemplate($folder, $data);
+                    $this->createStructureTemplate();
                     break;
                 case 'asset':
-                    $this->createStructureAsset($folder, $data);
+                    $this->createStructureAsset();
                     break;
             }
         }
+
+        $this->write("{$this->folder}/README.md", 'readme');
+        $this->write("{$this->folder}/.gitignore", 'gitignore');
+        $this->write("{$this->folder}/composer.json", 'composer');
+        $this->write("{$this->folder}/.scrutinizer.yml", 'scrutinizer');
     }
 
     /**
      * Creates asset structure
-     * @param string $folder
-     * @param array $data
      */
-    protected function createStructureAsset($folder, array $data)
+    protected function createStructureAsset()
     {
         $subfolders = array(self::FOLDER_CSS, self::FOLDER_JS, self::FOLDER_IMAGE);
+
         foreach ($subfolders as $subfolder) {
-            if ($this->prepareFolder("$folder/$subfolder")) {
+            if ($this->prepareFolder("{$this->folder}/$subfolder")) {
                 $filename = $subfolder == self::FOLDER_IMAGE ? 'image.png' : "common.$subfolder";
-                $this->write("$folder/$subfolder/$filename", $subfolder, $data, false);
+                $this->write("{$this->folder}/$subfolder/$filename", $subfolder);
             }
         }
     }
 
     /**
      * Creates a controller class
-     * @param string $folder
-     * @param array $data
      */
-    protected function createStructureController($folder, array $data)
+    protected function createStructureController()
     {
-        $folder .= '/' . self::FOLDER_CONTROLLER;
+        $folder = $this->folder . '/' . self::FOLDER_CONTROLLER;
+
         if ($this->prepareFolder($folder)) {
-            $this->write("$folder/Settings.php", 'controller', $data);
+            $this->write("$folder/Settings.php", 'controller');
         }
     }
 
     /**
      * Cretates module main class
-     * @param string $folder
-     * @param array $data
-     * @return boolean
      */
-    protected function createMainClass($folder, array $data)
+    protected function createMainClass()
     {
-        if ($this->prepareFolder($folder)) {
-            $this->write("$folder/{$data['module']['class_name']}.php", 'main', $data);
+        if ($this->prepareFolder($this->folder)) {
+            $this->write("{$this->folder}/{$this->data['module']['class_name']}.php", 'main');
         }
     }
 
     /**
      * Creates a model class
-     * @param string $folder
-     * @param array $data
      */
-    protected function createStructureModel($folder, array $data)
+    protected function createStructureModel()
     {
-        $folder .= '/' . self::FOLDER_MODEL;
+        $folder = $this->folder . '/' . self::FOLDER_MODEL;
+
         if ($this->prepareFolder($folder)) {
-            $this->write("$folder/{$data['module']['class_name']}.php", 'model', $data);
+            $this->write("$folder/{$this->data['module']['class_name']}.php", 'model');
         }
     }
 
     /**
      * Creates a helper class
-     * @param string $folder
-     * @param array $data
      */
-    protected function createStructureHelper($folder, array $data)
+    protected function createStructureHelper()
     {
-        $folder .= '/' . self::FOLDER_HELPER;
+        $folder = $this->folder . '/' . self::FOLDER_HELPER;
+
         if ($this->prepareFolder($folder)) {
-            $this->write("$folder/{$data['module']['class_name']}.php", 'helper', $data);
+            $this->write("$folder/{$this->data['module']['class_name']}.php", 'helper');
         }
     }
 
     /**
      * Creates a handler class
-     * @param string $folder
-     * @param array $data
      */
-    protected function createStructureHandler($folder, array $data)
+    protected function createStructureHandler()
     {
-        $folder .= '/' . self::FOLDER_HANDLER;
+        $folder = $this->folder . '/' . self::FOLDER_HANDLER;
+
         if ($this->prepareFolder($folder)) {
-            $this->write("$folder/{$data['module']['class_name']}.php", 'handler', $data);
+            $this->write("$folder/{$this->data['module']['class_name']}.php", 'handler');
         }
     }
 
     /**
      * Creates module overrides
-     * @param string $folder
-     * @param array $data
      */
-    protected function createStructureOverride($folder, array $data)
+    protected function createStructureOverride()
     {
-        $folder .= '/' . self::FOLDER_OVERRIDE . "/modules/{$data['module']['id']}";
+        $folder = $this->folder . '/' . self::FOLDER_OVERRIDE . "/modules/{$this->data['module']['id']}";
+
         if ($this->prepareFolder($folder)) {
-            $this->write("$folder/{$data['module']['class_name']}Override.php", 'override', $data);
+            $this->write("$folder/{$this->data['module']['class_name']}Override.php", 'override');
         }
     }
 
     /**
      * Creates a template sample
-     * @param string $folder
-     * @param array $data
      */
-    protected function createStructureTemplate($folder, array $data)
+    protected function createStructureTemplate()
     {
-        $folder .= '/' . self::FOLDER_TEMPLATE;
+        $folder = $this->folder . '/' . self::FOLDER_TEMPLATE;
+
         if ($this->prepareFolder($folder)) {
-            $this->write("$folder/settings.php", 'template', $data);
+            $this->write("$folder/settings.php", 'template');
         }
     }
 
     /**
      * Pack module folder into zip file
-     * @param string $folder
-     * @param array $data
      * @return bool
      */
-    protected function createZip($folder, array $data)
+    protected function createZip()
     {
-        $this->file = "$folder.zip";
-        $result = $this->zip->folder("$folder/*", $this->file, $data['module']['id']);
-        gplcart_file_delete_recursive($folder);
+        $this->file = "{$this->folder}.zip";
+
+        $result = $this->zip->folder("{$this->folder}/*", $this->file, $this->data['module']['id']);
+        gplcart_file_delete_recursive($this->folder);
         return $result;
     }
 
@@ -284,23 +291,28 @@ class Generator extends Model
     }
 
     /**
-     * Returns a full path to the module folder
-     * @param integer $module_id
-     * @return string
+     * Set a full path to the module folder
+     * @return bool
      */
-    protected function getModuleFolder($module_id)
+    protected function setModuleFolder()
     {
-        return GC_PRIVATE_DOWNLOAD_DIR . "/$module_id";
+        $this->folder = GC_PRIVATE_DOWNLOAD_DIR . "/{$this->data['module']['id']}";
+
+        if (file_exists($this->folder)) {
+            trigger_error("Module directory {$this->folder} already exists and probably contains old generated files");
+            return false;
+        }
+        return true;
     }
 
     /**
      * Recursively creates folders
      * @param string $folder
-     * @return boolean
+     * @return bool
      */
     protected function prepareFolder($folder)
     {
-        return (!file_exists($folder) && mkdir($folder, 0775, true));
+        return !file_exists($folder) && mkdir($folder, 0775, true);
     }
 
     /**
@@ -308,23 +320,23 @@ class Generator extends Model
      * @param array $data
      * @return string
      */
-    protected function prepareData(array &$data)
+    protected function setData(array &$data)
     {
         $licenses = $this->getLicenses();
 
         $data['module']['class_name'] = $this->config->getModuleClassName($data['module']['id']);
         $data['module']['namespace'] = $this->config->getModuleClassNamespace($data['module']['id']);
         $data['module']['license_url'] = $licenses[$data['module']['license']] . ' ' . $data['module']['license'];
-        return $data;
+
+        return $this->data = $data;
     }
 
     /**
      * Renders a template
      * @param string $template
-     * @param array $data
      * @return string|null
      */
-    protected function render($template, array $data)
+    protected function render($template)
     {
         $file = GC_MODULE_DIR . "/skeleton/templates/$template.php";
 
@@ -332,7 +344,7 @@ class Generator extends Model
             return null;
         }
 
-        extract($data, EXTR_SKIP);
+        extract($this->data, EXTR_SKIP);
         ob_start();
         include $file;
         return ob_get_clean();
@@ -342,19 +354,17 @@ class Generator extends Model
      * Writes to a file using a template as an source
      * @param string $file
      * @param string $template
-     * @param array $data
-     * @param bool $php
      * @return null
      */
-    protected function write($file, $template, array $data, $php = true)
+    protected function write($file, $template)
     {
-        $content = $this->render($template, $data);
+        $content = $this->render($template);
 
         if (!isset($content)) {
             return null;
         }
 
-        if ($php) {
+        if (pathinfo($file, PATHINFO_EXTENSION) === 'php') {
             $content = "<?php\n\n$content";
         }
 

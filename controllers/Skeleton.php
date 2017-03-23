@@ -125,7 +125,6 @@ class Skeleton extends BackendController
             $this->setSubmitted('module.name', $module_id);
         }
 
-        gplcart_file_delete_recursive(GC_PRIVATE_DOWNLOAD_DIR . "/$module_id");
         return true;
     }
 

@@ -32,7 +32,7 @@
               <?php echo $this->text('Version'); ?>
             </label>
             <div class="col-md-9">
-              <input name="skeleton[module][version]" class="form-control" value="<?php echo isset($skeleton['module']['version']) ? $this->escape($skeleton['module']['version']) : '1.0.0-alfa.1'; ?>">
+              <input name="skeleton[module][version]" class="form-control" value="<?php echo isset($skeleton['module']['version']) ? $this->escape($skeleton['module']['version']) : '1.0.0-dev'; ?>">
               <div class="help-block">
                   <?php echo $this->error('module.version'); ?>
                 <div class="text-muted">

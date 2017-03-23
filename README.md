@@ -12,6 +12,6 @@ Just add some code and you're ready to go!
 
 **Usage**
 
-1. Go to `admin/tool/skeleton`, fill in the fields
+1. Go to `admin/module/settings/skeleton`, fill in the fields
 2. Download the generated skeleton
 3. Start to develop your cool module

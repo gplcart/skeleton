@@ -16,7 +16,7 @@ use gplcart\core\Module;
  */
 class Skeleton extends Module
 {
-    
+
     public function __construct()
     {
         parent::__construct();
@@ -30,10 +30,11 @@ class Skeleton extends Module
     {
         return array(
             'name' => 'Skeleton',
-            'version' => '1.0.0-alfa.2',
+            'version' => '1.0.0-dev',
             'description' => 'A tool that allows developers to generate blank modules for different purposes',
             'author' => 'Iurii Makukh',
-            'core' => '1.x'
+            'core' => '1.x',
+            'configure' => 'admin/module/settings/skeleton',
         );
     }
 
@@ -43,8 +44,8 @@ class Skeleton extends Module
      */
     public function hookRouteList(array &$routes)
     {
-        $routes['admin/tool/skeleton'] = array(
-            'menu' => array('admin' => 'Skeleton'),
+        $routes['admin/module/settings/skeleton'] = array(
+            'access' => 'module_edit',
             'handlers' => array(
                 'controller' => array('gplcart\\modules\\skeleton\\controllers\\Skeleton', 'editSkeleton')
             )

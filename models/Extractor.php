@@ -331,7 +331,7 @@ class Extractor extends Model
      */
     public function scan($directory, $count = false)
     {
-        $files = array_filter(gplcart_file_scan_recursive("$directory/*"), function($file) {
+        $files = array_filter(gplcart_file_scan_recursive($directory), function($file) {
             return pathinfo($file, PATHINFO_EXTENSION) === 'php';
         });
 

@@ -275,8 +275,7 @@ class Generator extends Model
     protected function createZip()
     {
         $this->file = "{$this->folder}.zip";
-
-        $result = $this->zip->folder("{$this->folder}/*", $this->file, $this->data['module']['id']);
+        $result = $this->zip->folder($this->folder, $this->file, $this->data['module']['id']);
         gplcart_file_delete_recursive($this->folder);
         return $result;
     }

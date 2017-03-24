@@ -13,7 +13,7 @@
       <div class="form-group">
         <label class="col-md-2 control-label"><?php echo '<?php echo $this->text("Name"); ?>'; ?></label>
         <div class="col-md-6">
-          <input name="settings[name]" class="form-control" placeholder="Placeholder" value="<?php echo '<?php echo isset($settings["name"]) ? $settings["name"] : ""; ?>'; ?>">
+          <input name="settings[name]" class="form-control" placeholder="Placeholder" value="<?php echo '<?php echo isset($settings["name"]) ? $this->escape($settings["name"]) : ""; ?>'; ?>">
         </div>
       </div>
       <div class="form-group">

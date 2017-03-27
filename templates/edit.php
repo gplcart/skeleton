@@ -84,7 +84,7 @@
               <?php echo $this->text('Description'); ?>
             </label>
             <div class="col-md-9">
-              <textarea name="skeleton[module][description]" class="form-control"><?php echo isset($skeleton['module']['description']) ? $this->escape($skeleton['module']['description']) : ''; ?></textarea>
+              <textarea name="skeleton[module][description]" rows="4" class="form-control"><?php echo isset($skeleton['module']['description']) ? $this->escape($skeleton['module']['description']) : ''; ?></textarea>
               <div class="help-block">
                   <?php echo $this->error('module.description'); ?>
                 <div class="text-muted">

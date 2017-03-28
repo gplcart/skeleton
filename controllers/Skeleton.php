@@ -210,12 +210,19 @@ class Skeleton extends BackendController
      */
     protected function setBreadcrumbEditSkeleton()
     {
-        $breadcrumb = array(
-            'url' => $this->url('admin'),
-            'text' => $this->text('Dashboard')
+        $breadcrumbs = array();
+
+        $breadcrumbs[] = array(
+            'text' => $this->text('Dashboard'),
+            'url' => $this->url('admin')
         );
 
-        $this->setBreadcrumb($breadcrumb);
+        $breadcrumbs[] = array(
+            'text' => $this->text('Modules'),
+            'url' => $this->url('admin/module/list')
+        );
+
+        $this->setBreadcrumbs($breadcrumbs);
     }
 
     /**

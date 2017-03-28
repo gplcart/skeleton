@@ -138,6 +138,7 @@ class Extractor extends Model
             'wishlist' => $this->language->text('Wishlists'),
             'zone' => $this->language->text('Geo zones'),
             'module' => $this->language->text('Modules'),
+            'oauth' => $this->language->text('Oauth authentication')
         );
 
         asort($items);

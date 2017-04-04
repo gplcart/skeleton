@@ -114,7 +114,7 @@ class Skeleton extends BackendController
         $this->setSubmitted('skeleton');
         $this->validateComponent('skeleton');
 
-        if ($this->hasErrors('skeleton')) {
+        if ($this->hasErrors()) {
             return false;
         }
 

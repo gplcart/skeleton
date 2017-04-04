@@ -101,7 +101,7 @@ class Settings extends BackendController
         }
          */
 
-        return !$this->hasErrors('settings');
+        return !$this->hasErrors();
     }
     
     /**

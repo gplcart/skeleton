@@ -254,7 +254,8 @@ class Extractor extends Model
     protected function inScope($hook, array $scopes)
     {
         foreach ($scopes as $scope) {
-            if (strpos($hook, "$scope.") === 0) {
+            $parts = explode('.', $hook);
+            if (reset($parts) === $scope) {
                 return true;
             }
         }

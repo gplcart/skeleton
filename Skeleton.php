@@ -33,8 +33,7 @@ class Skeleton extends Module
             'version' => '1.0.0-dev',
             'description' => 'A tool that allows developers to generate blank modules for different purposes',
             'author' => 'Iurii Makukh',
-            'core' => '1.x',
-            'configure' => 'admin/module/settings/skeleton',
+            'core' => '1.x'
         );
     }
 
@@ -44,8 +43,8 @@ class Skeleton extends Module
      */
     public function hookRouteList(array &$routes)
     {
-        $routes['admin/module/settings/skeleton'] = array(
-            'access' => 'module_edit',
+        $routes['admin/tool/skeleton'] = array(
+            'menu' => array('admin' => 'Create module'),
             'handlers' => array(
                 'controller' => array('gplcart\\modules\\skeleton\\controllers\\Skeleton', 'editSkeleton')
             )

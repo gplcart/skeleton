@@ -150,7 +150,7 @@ class Skeleton extends BackendController
             $this->redirect('', $this->text('An error occurred'), 'warning');
         }
 
-        $file = urlencode(base64_encode($this->generator->getZip()));
+        $file = gplcart_string_encode($this->generator->getZip());
         $vars = array('@url' => $this->url('', array('download' => $file)));
         $this->redirect('', $this->text('Skeleton has been created. <a href="@url">Download</a>', $vars), 'success');
     }
@@ -167,7 +167,7 @@ class Skeleton extends BackendController
             return null;
         }
 
-        $file = base64_decode(urldecode($path));
+        $file = gplcart_string_decode($path);
 
         if (!is_file($file) || !is_readable($file)) {
             $this->outputHttpStatus(404);
@@ -215,11 +215,6 @@ class Skeleton extends BackendController
         $breadcrumbs[] = array(
             'text' => $this->text('Dashboard'),
             'url' => $this->url('admin')
-        );
-
-        $breadcrumbs[] = array(
-            'text' => $this->text('Modules'),
-            'url' => $this->url('admin/module/list')
         );
 
         $this->setBreadcrumbs($breadcrumbs);

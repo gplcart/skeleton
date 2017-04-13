@@ -41,10 +41,13 @@ class <?php echo $module['class_name']; ?> extends Module
             'core' => '<?php echo $module['core']; ?>',
             'license' => '<?php echo $module['license']; ?>', 
 <?php if(!empty($structure) && in_array('configurable', $structure)) { ?>
-            'configure' => 'admin/module/settings/<?php echo $module['id']; ?>', 
+            'configure' => 'admin/module/settings/<?php echo $module['id']; ?>',
+            'settings' => array(),
+<?php } else { ?>
+            //'settings' => array(),
+            //'configure' => '',
 <?php } ?>
             //'dependencies' => array(),
-            //'settings' => array(),
             //'type' => 'module',
             //'image' => ''
         );

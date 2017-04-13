@@ -21,10 +21,11 @@ class <?php echo $module['class_name']; ?> extends Module
     public function __construct()
     {
         parent::__construct();
-       
-      // WARNING: This constructor is called on each request.
-      // Instantiating module specific classes here may cause site-wide performance issues
-      // Use $this->getInstance('namespace\\YourClass'); to get a class instance right in your methods
+
+      // WARNING: Any code placed here will be triggered on each page load across all the site.
+      // It may cause site-wide performance issues.
+      // DO NOT instantiate module specific classes here.
+      // Use $this->getInstance('namespace\\YourClass'); to get a class instance right in your methods.
     }
 
     /**

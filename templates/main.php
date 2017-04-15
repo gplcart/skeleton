@@ -48,7 +48,8 @@ class <?php echo $module['class_name']; ?> extends Module
             //'settings' => array(),
             //'configure' => '',
 <?php } ?>
-            //'dependencies' => array(),
+            //'php' => '>= 5.4',
+            //'dependencies' => array('some_module_id' => '>= 1.0'),
             //'type' => 'module',
             //'image' => ''
         );

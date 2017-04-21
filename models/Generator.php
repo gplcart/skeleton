@@ -120,11 +120,6 @@ class Generator extends Model
     public function generate(array $data)
     {
         $this->setData($data);
-
-        if (!$this->setModuleFolder()) {
-            return false;
-        }
-
         $this->createMainClass();
 
         if (!empty($this->data['structure'])) {
@@ -275,6 +270,11 @@ class Generator extends Model
     protected function createZip()
     {
         $this->file = "{$this->folder}.zip";
+
+        if (is_file($this->file)) {
+            unlink($this->file);
+        }
+
         $result = $this->zip->folder($this->folder, $this->file, $this->data['module']['id']);
         gplcart_file_delete_recursive($this->folder);
         return $result;
@@ -290,28 +290,13 @@ class Generator extends Model
     }
 
     /**
-     * Set a full path to the module folder
-     * @return bool
-     */
-    protected function setModuleFolder()
-    {
-        $this->folder = GC_PRIVATE_DOWNLOAD_DIR . "/{$this->data['module']['id']}";
-
-        if (file_exists($this->folder)) {
-            trigger_error("Module directory {$this->folder} already exists and probably contains old generated files");
-            return false;
-        }
-        return true;
-    }
-
-    /**
      * Recursively creates folders
      * @param string $folder
      * @return bool
      */
     protected function prepareFolder($folder)
     {
-        return !file_exists($folder) && mkdir($folder, 0775, true);
+        return !is_dir($folder) && mkdir($folder, 0775, true);
     }
 
     /**
@@ -327,6 +312,7 @@ class Generator extends Model
         $data['module']['namespace'] = $this->config->getModuleClassNamespace($data['module']['id']);
         $data['module']['license_url'] = $licenses[$data['module']['license']] . ' ' . $data['module']['license'];
 
+        $this->folder = gplcart_file_unique(GC_PRIVATE_DOWNLOAD_DIR . "/skeleton/{$data['module']['id']}");
         return $this->data = $data;
     }
 
@@ -339,7 +325,7 @@ class Generator extends Model
     {
         $file = GC_MODULE_DIR . "/skeleton/templates/$template.php";
 
-        if (!is_readable($file)) {
+        if (!is_file($file)) {
             return null;
         }
 

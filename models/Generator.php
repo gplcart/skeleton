@@ -120,13 +120,38 @@ class Generator extends Model
     public function generate(array $data)
     {
         $this->setData($data);
+
         $this->createMainClass();
+        $this->createManifest();
 
         if (!empty($this->data['structure'])) {
             $this->createStructure();
         }
 
         return $this->createZip();
+    }
+
+    /**
+     * Create module manifest file
+     */
+    protected function createManifest()
+    {
+        $data = array(
+            'name' => $this->data['module']['name'],
+            'version' => $this->data['module']['version'],
+            'description' => $this->data['module']['description'],
+            'author' => $this->data['module']['author'],
+            'core' => $this->data['module']['core'],
+            'license' => $this->data['module']['license']
+        );
+
+        if (!empty($this->data['structure']) && in_array('configurable', $this->data['structure'])) {
+            $data['configure'] = 'admin/module/settings/' . $this->data['module']['id'];
+            $data['settings'] = array();
+        }
+
+        $json = json_encode($data, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
+        file_put_contents("{$this->folder}/module.json", $json);
     }
 
     /**

@@ -27,33 +27,6 @@ class <?php echo $module['class_name']; ?> extends Module
       // DO NOT instantiate module specific classes here.
       // Use $this->getInstance('namespace\\YourClass'); to get a class instance right in your methods.
     }
-
-    /**
-     * Module info
-     * @return array
-     */
-    public function info()
-    {
-        return array(
-            'name' => '<?php echo $module['name']; ?>',
-            'version' => '<?php echo $module['version']; ?>',
-            'description' => '<?php echo $module['description']; ?>',
-            'author' => '<?php echo $module['author']; ?>',
-            'core' => '<?php echo $module['core']; ?>',
-            'license' => '<?php echo $module['license']; ?>', 
-<?php if(!empty($structure) && in_array('configurable', $structure)) { ?>
-            'configure' => 'admin/module/settings/<?php echo $module['id']; ?>',
-            'settings' => array(),
-<?php } else { ?>
-            //'settings' => array(),
-            //'configure' => '',
-<?php } ?>
-            //'php' => '>= 5.4',
-            //'dependencies' => array('some_module_id' => '>= 1.0'),
-            //'type' => 'module',
-            //'image' => ''
-        );
-    }
 <?php if(!empty($hooks)) { ?><?php foreach($hooks as $hook) { ?>
     
     /**

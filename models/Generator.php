@@ -296,7 +296,7 @@ class Generator extends Model
      */
     protected function prepareFolder($folder)
     {
-        return !is_dir($folder) && mkdir($folder, 0644, true);
+        return !file_exists($folder) && mkdir($folder, 0644, true);
     }
 
     /**

@@ -23,21 +23,6 @@ class Skeleton extends Module
     }
 
     /**
-     * Module info
-     * @return array
-     */
-    public function info()
-    {
-        return array(
-            'name' => 'Skeleton',
-            'version' => '1.0.0-dev',
-            'description' => 'A tool that allows developers to generate blank modules for different purposes',
-            'author' => 'Iurii Makukh',
-            'core' => '1.x'
-        );
-    }
-
-    /**
      * Implements hook "route.list"
      * @param array $routes
      */

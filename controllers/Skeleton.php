@@ -173,7 +173,7 @@ class Skeleton extends BackendController
             $this->outputHttpStatus(404);
         }
 
-        $this->response->download($file);
+        $this->download($file);
     }
 
     /**

@@ -9,7 +9,6 @@
 
 namespace gplcart\modules\skeleton\handlers;
 
-use gplcart\core\Config;
 use gplcart\core\handlers\validator\Base as BaseValidator;
 
 /**
@@ -19,20 +18,11 @@ class Validator extends BaseValidator
 {
 
     /**
-     * Config class instance
-     * @var \gplcart\core\Config $config
-     */
-    protected $config;
-
-    /**
      * Constructor
-     * @param Config $config
      */
-    public function __construct(Config $config)
+    public function __construct()
     {
         parent::__construct();
-
-        $this->config = $config;
     }
 
     /**

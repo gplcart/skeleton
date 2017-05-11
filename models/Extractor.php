@@ -108,6 +108,7 @@ class Extractor extends Model
             'condition' => $this->language->text('Trigger conditions'),
             'country' => $this->language->text('Countries'),
             'currency' => $this->language->text('Currencies'),
+            'dashboard' => $this->language->text('Dashboard'),
             'field' => $this->language->text('Product fields'),
             'file' => $this->language->text('Files'),
             'filter' => $this->language->text('Filters'),

@@ -227,6 +227,4 @@ $(function() {
     });
 });
 </script>
-<?php if (!empty($job)) { ?>
-    <?php echo $job; ?>
-<?php } ?>
+<?php echo $_job; ?>

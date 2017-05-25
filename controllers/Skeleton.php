@@ -64,8 +64,6 @@ class Skeleton extends BackendController
         $this->setData('author', $author);
 
         $this->submitSkeleton();
-        $this->setJob();
-
         $this->generateFromJobSkeleton();
         $this->outputEditSkeleton();
     }

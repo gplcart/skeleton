@@ -46,25 +46,25 @@ class Extractor extends Model
     /**
      * Pattern to extract class names
      */
-    const PATTERN_CLASS = '/^class\s+(.+?)(\s|$)/';
+    const PATTERN_CLASS = '/(?:^| )class\s+(.+?)(\s+|\n\r|$)/';
 
     /**
      * The current method while parsing hooks
      * @var string
      */
-    protected $current_function = '';
+    protected $current_function;
 
     /**
      * The current class namespace while parsing hooks
      * @var string
      */
-    protected $current_namespace = '';
+    protected $current_namespace;
 
     /**
      * The current class while parsing hooks
      * @var string
      */
-    protected $current_class = '';
+    protected $current_class;
 
     /**
      * Language model instance
@@ -233,6 +233,7 @@ class Extractor extends Model
 
                 // Test extracted class and method
                 if (!method_exists($prepared['namespaced_class'], $prepared['function'])) {
+                    trigger_error("Extracted method {$prepared['namespaced_class']}::{$prepared['function']} does not exist");
                     $errors[$prepared['hook']['name']] = $prepared;
                     continue;
                 }
@@ -268,7 +269,7 @@ class Extractor extends Model
      */
     public function parse($file)
     {
-        $this->current_class = $this->current_namespace = '';
+        $this->current_class = $this->current_namespace = null;
 
         $handle = fopen($file, 'r');
 
@@ -290,13 +291,15 @@ class Extractor extends Model
 
             preg_match(self::PATTERN_NAMESPACE, $line, $namespace);
 
-            if (!empty($namespace[1])) {
+            // Namespace and class name should occur once per file
+            // If it has been set, skip others to avoid errors
+            if (!isset($this->current_namespace) && !empty($namespace[1])) {
                 $this->current_namespace = $namespace[1];
             }
 
             preg_match(self::PATTERN_CLASS, $line, $class);
 
-            if (!empty($class[1])) {
+            if (!isset($this->current_class) && !empty($class[1])) {
                 $this->current_class = $class[1];
             }
 

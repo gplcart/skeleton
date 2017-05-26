@@ -18,7 +18,7 @@
                 <?php echo $this->text('ID'); ?>
             </label>
             <div class="col-md-9">
-              <input maxlength="255" name="skeleton[module][id]" class="form-control" value="<?php echo isset($skeleton['module']['id']) ? $this->escape($skeleton['module']['id']) : ''; ?>">
+              <input maxlength="255" name="skeleton[module][id]" class="form-control" value="<?php echo isset($skeleton['module']['id']) ? $this->e($skeleton['module']['id']) : ''; ?>">
               <div class="help-block">
                   <?php echo $this->error('module.id'); ?>
                 <div class="text-muted">
@@ -32,7 +32,7 @@
               <?php echo $this->text('Version'); ?>
             </label>
             <div class="col-md-9">
-              <input name="skeleton[module][version]" class="form-control" value="<?php echo isset($skeleton['module']['version']) ? $this->escape($skeleton['module']['version']) : '1.0.0-dev'; ?>">
+              <input name="skeleton[module][version]" class="form-control" value="<?php echo isset($skeleton['module']['version']) ? $this->e($skeleton['module']['version']) : '1.0.0-dev'; ?>">
               <div class="help-block">
                   <?php echo $this->error('module.version'); ?>
                 <div class="text-muted">
@@ -44,7 +44,7 @@
           <div class="form-group required<?php echo $this->error('module.core', ' has-error'); ?>">
             <label class="col-md-3 control-label"><?php echo $this->text('Core'); ?></label>
             <div class="col-md-9">
-              <input name="skeleton[module][core]" class="form-control" value="<?php echo isset($skeleton['module']['core']) ? $this->escape($skeleton['module']['core']) : strtok(GC_VERSION, '.') . '.x'; ?>">
+              <input name="skeleton[module][core]" class="form-control" value="<?php echo isset($skeleton['module']['core']) ? $this->e($skeleton['module']['core']) : strtok(GC_VERSION, '.') . '.x'; ?>">
               <div class="help-block">
                   <?php echo $this->error('module.core'); ?>
                 <div class="text-muted">
@@ -56,7 +56,7 @@
           <div class="form-group required<?php echo $this->error('module.author', ' has-error'); ?>">
             <label class="col-md-3 control-label"><?php echo $this->text('Author'); ?></label>
             <div class="col-md-9">
-              <input maxlength="255" name="skeleton[module][author]" class="form-control" value="<?php echo isset($skeleton['module']['author']) ? $this->escape($skeleton['module']['author']) : $this->escape($author); ?>">
+              <input maxlength="255" name="skeleton[module][author]" class="form-control" value="<?php echo isset($skeleton['module']['author']) ? $this->e($skeleton['module']['author']) : $this->e($author); ?>">
               <div class="help-block">
                   <?php echo $this->error('module.author'); ?>
                 <div class="text-muted">
@@ -70,7 +70,7 @@
               <?php echo $this->text('Name'); ?>
             </label>
             <div class="col-md-9">
-              <input maxlength="255" name="skeleton[module][name]" class="form-control" value="<?php echo isset($skeleton['module']['name']) ? $this->escape($skeleton['module']['name']) : ''; ?>">
+              <input maxlength="255" name="skeleton[module][name]" class="form-control" value="<?php echo isset($skeleton['module']['name']) ? $this->e($skeleton['module']['name']) : ''; ?>">
               <div class="help-block">
                   <?php echo $this->error('module.name'); ?>
                 <div class="text-muted">
@@ -84,7 +84,7 @@
               <?php echo $this->text('Description'); ?>
             </label>
             <div class="col-md-9">
-              <textarea name="skeleton[module][description]" rows="4" class="form-control"><?php echo isset($skeleton['module']['description']) ? $this->escape($skeleton['module']['description']) : ''; ?></textarea>
+              <textarea name="skeleton[module][description]" rows="4" class="form-control"><?php echo isset($skeleton['module']['description']) ? $this->e($skeleton['module']['description']) : ''; ?></textarea>
               <div class="help-block">
                   <?php echo $this->error('module.description'); ?>
                 <div class="text-muted">
@@ -98,7 +98,7 @@
             <div class="col-md-9">
               <select name="skeleton[module][license]" class="form-control">
                 <?php foreach ($licenses as $name => $url) { ?>
-                <option value="<?php echo $name; ?>"<?php echo isset($skeleton['module']['license']) && $skeleton['module']['license'] == $name ? ' selected' : ''; ?>><?php echo $this->escape($name); ?></option>
+                <option value="<?php echo $name; ?>"<?php echo isset($skeleton['module']['license']) && $skeleton['module']['license'] == $name ? ' selected' : ''; ?>><?php echo $this->e($name); ?></option>
                 <?php } ?>
               </select>
               <div class="help-block">
@@ -131,7 +131,7 @@
               <?php foreach ($chunk as $group => $name) { ?>
               <div class="checkbox">
                 <label>
-                  <input type="checkbox" value="<?php echo $group; ?>" name="skeleton[hooks][]"<?php echo isset($skeleton['hooks']) && in_array($group, $skeleton['hooks']) ? ' checked' : ''; ?>> <?php echo $this->escape($name); ?>
+                  <input type="checkbox" value="<?php echo $group; ?>" name="skeleton[hooks][]"<?php echo isset($skeleton['hooks']) && in_array($group, $skeleton['hooks']) ? ' checked' : ''; ?>> <?php echo $this->e($name); ?>
                 </label>
               </div>
               <?php } ?>

@@ -60,7 +60,7 @@ class Skeleton extends BackendController
         $this->setData('hooks', $hooks);
         $this->setData('licenses', $this->generator->getLicenses());
 
-        $author = $this->user('name') . ' <' . $this->user('email') . '>';
+        $author = $this->getUser('name') . ' <' . $this->getUser('email') . '>';
         $this->setData('author', $author);
 
         $this->submitSkeleton();

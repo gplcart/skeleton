@@ -16,7 +16,8 @@
         "issues": "https://github.com/gplcart/skeleton/issues"
     },
     "require": {
-        "gplcart/composer-module-installer": "*"
+        "gplcart/composer-module-installer": "*",
+        "ext-zip": "*"
     },
     "minimum-stability": "dev",
     "prefer-stable": true

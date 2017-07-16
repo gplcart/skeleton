@@ -17,9 +17,22 @@ use gplcart\core\Module;
 class Skeleton extends Module
 {
 
+    /**
+     * Constructor
+     */
     public function __construct()
     {
         parent::__construct();
+    }
+
+    /**
+     * Implements hook "module.install.before"
+     */
+    public function hookModuleInstallBefore(&$result)
+    {
+        if (!class_exists('ZipArchive')) {
+            $result = 'Class ZipArchive does not exist';
+        }
     }
 
     /**

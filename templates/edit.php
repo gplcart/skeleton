@@ -6,7 +6,7 @@
  * @license https://www.gnu.org/licenses/gpl.html GNU/GPLv3
  */
 ?>
-<form method="post" class="form-horizontal skeleton">
+<form method="post" class="form-horizontal">
   <input type="hidden" name="token" value="<?php echo $_token; ?>">
   <div class="row">
     <div class="col-md-6">
@@ -199,25 +199,21 @@
           </div>
         </div>
       </div>
-      <div class="panel panel-default">
-        <div class="panel-body">
-          <button class="btn btn-default" name="create" value="1"><?php echo $this->text('Create'); ?></button>
-        </div>
-      </div>
+      <button class="btn btn-default" name="create" value="1"><?php echo $this->text('Create'); ?></button>
     </div>
   </div>
 </form>
 <script>
 $(function() {
-    
+
     $('[name="all-structure"]').click(function(){
-       $('[name="skeleton[structure][]"]').prop('checked', $(this).prop('checked')); 
+       $('[name="skeleton[structure][]"]').prop('checked', $(this).prop('checked'));
     });
-    
+
     $('[name="all-hooks"]').click(function(){
-       $('[name="skeleton[hooks][]"]').prop('checked', $(this).prop('checked')); 
+       $('[name="skeleton[hooks][]"]').prop('checked', $(this).prop('checked'));
     });
-    
+
     $('[name="skeleton[structure][]"][value="configurable"]').click(function(){
         if($(this).is(':checked')) {
             $('[name="skeleton[hooks][]"][value="route"]').prop('checked', true);

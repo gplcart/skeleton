@@ -31,7 +31,7 @@ class Extractor extends Model
     /**
      * Pattern to extract hook arguments
      */
-    const PATTERN_HOOK = '/->fire\s*\(\s*(.+?)\s*\)/s';
+    const PATTERN_HOOK = '/->attach\s*\(\s*(.+?)\s*\)/s';
 
     /**
      * Pattern to extract method names

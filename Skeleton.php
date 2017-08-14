@@ -31,7 +31,7 @@ class Skeleton extends Module
     public function hookModuleInstallBefore(&$result)
     {
         if (!class_exists('ZipArchive')) {
-            $result = 'Class ZipArchive does not exist';
+            $result = $this->getLanguage()->text('Class ZipArchive does not exist');
         }
     }
 

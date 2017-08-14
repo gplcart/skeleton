@@ -88,7 +88,6 @@ class Generator extends Model
     protected $data = array();
 
     /**
-     * Constructor
      * @param ZipHelper $zip
      */
     public function __construct(ZipHelper $zip)
@@ -123,10 +122,7 @@ class Generator extends Model
 
         $this->createMainClass();
         $this->createManifest();
-
-        if (!empty($this->data['structure'])) {
-            $this->createStructure();
-        }
+        $this->createStructure();
 
         return $this->createZip();
     }
@@ -159,9 +155,18 @@ class Generator extends Model
      */
     protected function createStructure()
     {
+        $this->write("{$this->folder}/README.md", 'readme');
+        $this->write("{$this->folder}/.gitignore", 'gitignore');
+        $this->write("{$this->folder}/composer.json", 'composer');
+        $this->write("{$this->folder}/.scrutinizer.yml", 'scrutinizer');
+
+        if (empty($this->data['structure'])) {
+            return null;
+        }
+
         foreach ($this->data['structure'] as $element) {
             switch ($element) {
-                case 'controller' :
+                case 'controller':
                     $this->createStructureController();
                     break;
                 case 'model':
@@ -181,14 +186,8 @@ class Generator extends Model
                     break;
                 case 'asset':
                     $this->createStructureAsset();
-                    break;
             }
         }
-
-        $this->write("{$this->folder}/README.md", 'readme');
-        $this->write("{$this->folder}/.gitignore", 'gitignore');
-        $this->write("{$this->folder}/composer.json", 'composer');
-        $this->write("{$this->folder}/.scrutinizer.yml", 'scrutinizer');
     }
 
     /**
@@ -219,7 +218,7 @@ class Generator extends Model
     }
 
     /**
-     * Cretates module main class
+     * Creates module main class
      */
     protected function createMainClass()
     {

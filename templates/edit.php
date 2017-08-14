@@ -195,7 +195,7 @@
             <label>
               <input type="checkbox" value="override" name="skeleton[structure][]"<?php echo isset($skeleton['structure']) && in_array('override', $skeleton['structure']) ? ' checked' : ''; ?>> <?php echo $this->text('Use overrides'); ?>
             </label>
-            <div class="help-block"><?php echo $this->text('Overriding allows developers to adjust core methods without touching source files'); ?></div>
+            <div class="help-block"><?php echo $this->text('Overriding allows developers to adjust core methods without touching core files'); ?></div>
           </div>
         </div>
       </div>

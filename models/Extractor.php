@@ -55,7 +55,7 @@ class Extractor extends Model
     protected $current_function;
 
     /**
-     * The current class namespace while parsing hooks
+     * The current class name space while parsing hooks
      * @var string
      */
     protected $current_namespace;
@@ -206,7 +206,7 @@ class Extractor extends Model
      */
     public function getHooks(array $options)
     {
-        $scanned = $this->scan($options['directory']);
+        $scanned = (array) $this->scan($options['directory']);
 
         // Pager
         if (!empty($options['limit'])) {

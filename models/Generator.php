@@ -268,7 +268,7 @@ class Generator extends Model
      */
     protected function createStructureOverride()
     {
-        $folder = $this->folder . '/' . self::FOLDER_OVERRIDE . "/modules/{$this->data['module']['id']}";
+        $folder = $this->folder . '/' . self::FOLDER_OVERRIDE . "/classes/modules/{$this->data['module']['id']}";
 
         if ($this->prepareFolder($folder)) {
             $this->write("$folder/{$this->data['module']['class_name']}Override.php", 'override');

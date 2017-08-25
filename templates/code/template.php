@@ -1,8 +1,8 @@
 /**
-* @package <?php echo $module['name']; ?>
-* @author <?php echo $module['author']; ?>
-* @copyright Copyright (c) <?php echo date('Y'); ?>, <?php echo $module['author']; ?>
-* @license <?php echo $module['license_url']; ?>
+* @package <?php echo $module['name']; ?> 
+* @author <?php echo $module['author']; ?> 
+* @copyright Copyright (c) <?php echo date('Y'); ?>, <?php echo $module['author']; ?> 
+* @license <?php echo $module['license_url']; ?> 
 */
 ?>
 <form method="post" class="form-horizontal">

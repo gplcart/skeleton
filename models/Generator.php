@@ -49,6 +49,11 @@ class Generator extends Model
     const FOLDER_OVERRIDE = 'override';
 
     /**
+     * Name of folder that contains module translations
+     */
+    const FOLDER_LOCALE = 'locale';
+
+    /**
      * Name of folder that contains JS assets
      */
     const FOLDER_JS = 'js';
@@ -186,6 +191,8 @@ class Generator extends Model
                     break;
                 case 'asset':
                     $this->createStructureAsset();
+                case 'locale':
+                    $this->createStructureLocale();
             }
         }
     }
@@ -202,6 +209,19 @@ class Generator extends Model
                 $filename = $subfolder == self::FOLDER_IMAGE ? 'image.png' : "common.$subfolder";
                 $this->write("{$this->folder}/$subfolder/$filename", $subfolder);
             }
+        }
+    }
+
+    /**
+     * Creates locale structure
+     */
+    protected function createStructureLocale()
+    {
+        $folder = $this->folder . '/' . self::FOLDER_LOCALE;
+
+        if ($this->prepareFolder($folder)) {
+            $name = $this->data['module']['name'];
+            gplcart_file_csv("$folder/en.csv", array($name, $name));
         }
     }
 

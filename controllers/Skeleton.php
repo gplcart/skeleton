@@ -150,7 +150,7 @@ class Skeleton extends BackendController
 
         $file = gplcart_string_encode($this->generator->getZip());
         $vars = array('@url' => $this->url('', array('download' => $file)));
-        $this->redirect('', $this->text('Skeleton has been created. <a href="@url">Download</a>', $vars), 'success');
+        $this->redirect('', $this->text('Module has been generated. <a href="@url">Download</a>', $vars), 'success');
     }
 
     /**

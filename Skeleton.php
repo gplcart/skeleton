@@ -42,7 +42,7 @@ class Skeleton extends Module
     public function hookRouteList(array &$routes)
     {
         $routes['admin/tool/skeleton'] = array(
-            'menu' => array('admin' => 'Create module'),
+            'menu' => array('admin' => 'Skeleton'),
             'handlers' => array(
                 'controller' => array('gplcart\\modules\\skeleton\\controllers\\Skeleton', 'editSkeleton')
             )

@@ -159,7 +159,7 @@ class Skeleton extends BackendController
      */
     protected function downloadSkeleton()
     {
-        $path = $this->getQuery('download', '', 'string');
+        $path = $this->getQuery('download', '');
 
         if (empty($path)) {
             return null;

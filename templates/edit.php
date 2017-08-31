@@ -44,7 +44,7 @@
           <div class="form-group required<?php echo $this->error('module.core', ' has-error'); ?>">
             <label class="col-md-3 control-label"><?php echo $this->text('Core'); ?></label>
             <div class="col-md-9">
-              <input name="skeleton[module][core]" class="form-control" value="<?php echo isset($skeleton['module']['core']) ? $this->e($skeleton['module']['core']) : strtok(GC_VERSION, '.') . '.x'; ?>">
+              <input name="skeleton[module][core]" class="form-control" value="<?php echo isset($skeleton['module']['core']) ? $this->e($skeleton['module']['core']) : gplcart_version(true) . '.x'; ?>">
               <div class="help-block">
                   <?php echo $this->error('module.core'); ?>
                 <div class="text-muted">

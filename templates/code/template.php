@@ -1,9 +1,11 @@
 /**
-* @package <?php echo $module['name']; ?> 
-* @author <?php echo $module['author']; ?> 
-* @copyright Copyright (c) <?php echo date('Y'); ?>, <?php echo $module['author']; ?> 
-* @license <?php echo $module['license_url']; ?> 
-*/
+ * @package <?php echo $module['name']; ?> 
+ * @author <?php echo $module['author']; ?> 
+ * @copyright Copyright (c) <?php echo date('Y'); ?>, <?php echo $module['author']; ?> 
+ * @license <?php echo $module['license_url']; ?> 
+ * @var $this \gplcart\core\controllers\backend\Controller 
+ * To see available variables <?php echo '<?php print_r(get_defined_vars()); ?>'; ?> 
+ */
 ?>
 <form method="post" class="form-horizontal">
   <input type="hidden" name="token" value="<?php echo '<?php echo $_token; ?>'; ?>">

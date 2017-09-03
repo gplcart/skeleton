@@ -92,6 +92,7 @@ class Skeleton extends BackendController
         }
 
         $this->generateSkeleton($data);
+        return null;
     }
 
     /**
@@ -155,23 +156,14 @@ class Skeleton extends BackendController
 
     /**
      * Output generated skeleton to download
-     * @return null
      */
     protected function downloadSkeleton()
     {
-        $path = $this->getQuery('download', '');
+        $path = $this->getQuery('download');
 
-        if (empty($path)) {
-            return null;
+        if (!empty($path)) {
+            $this->download(gplcart_string_decode($path));
         }
-
-        $file = gplcart_string_decode($path);
-
-        if (!is_file($file) || !is_readable($file)) {
-            $this->outputHttpStatus(404);
-        }
-
-        $this->download($file);
     }
 
     /**

@@ -383,7 +383,7 @@ class Generator extends Model
      * Writes to a file using a template as an source
      * @param string $file
      * @param string $template
-     * @return null
+     * @return null|bool
      */
     protected function write($file, $template)
     {
@@ -397,7 +397,7 @@ class Generator extends Model
             $content = "<?php\n\n$content";
         }
 
-        file_put_contents($file, $content);
+        return file_put_contents($file, $content) !== false;
     }
 
 }

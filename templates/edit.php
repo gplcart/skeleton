@@ -46,7 +46,7 @@
             <div class="col-md-9">
               <input name="skeleton[module][core]" class="form-control" value="<?php echo isset($skeleton['module']['core']) ? $this->e($skeleton['module']['core']) : gplcart_version(true) . '.x'; ?>">
               <div class="help-block">
-                  <?php echo $this->error('module.core'); ?>
+                <?php echo $this->error('module.core'); ?>
                 <div class="text-muted">
                   <?php echo $this->text('GPL Cart core compatibility. For example, if the module requires any version of 1.x branch, enter "1.x"'); ?>
                 </div>
@@ -157,9 +157,9 @@
           </div>
           <div class="checkbox">
             <label>
-              <input type="checkbox" value="locale" name="skeleton[structure][]"<?php echo isset($skeleton['structure']) && in_array('locale', $skeleton['structure']) ? ' checked' : ''; ?>> <?php echo $this->text('Provides translations'); ?>
+              <input type="checkbox" value="locale" name="skeleton[structure][]"<?php echo isset($skeleton['structure']) && in_array('locale', $skeleton['structure']) ? ' checked' : ''; ?>> <?php echo $this->text('Use translations'); ?>
             </label>
-            <div class="help-block"><?php echo $this->text('Has translations for UI. Upon installation those translations will be added to the existing system translations'); ?></div>
+            <div class="help-block"><?php echo $this->text('This module provides translation file(s) to translate UI'); ?></div>
           </div>
           <div class="checkbox">
             <label>

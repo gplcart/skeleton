@@ -89,6 +89,7 @@ class Settings extends BackendController
     
     /**
      * Validate submitted module settings
+     * @return bool
      */
     protected function validateSettings()
     {

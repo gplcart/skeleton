@@ -331,6 +331,7 @@ class Extractor extends Model
     /**
      * Returns an array of scanned files to extract hooks from or counts extracted items
      * @param string $directory
+     * @param bool $count
      * @return integer|array
      */
     public function scan($directory, $count = false)

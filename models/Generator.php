@@ -81,10 +81,10 @@ class Generator extends Model
     protected $file;
 
     /**
-     * The current module folder
+     * The current module directory
      * @var string
      */
-    protected $folder;
+    protected $directory;
 
     /**
      * An array of module data
@@ -152,7 +152,7 @@ class Generator extends Model
         }
 
         $json = json_encode($data, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
-        file_put_contents("{$this->folder}/module.json", $json);
+        file_put_contents("{$this->directory}/module.json", $json);
     }
 
     /**
@@ -160,10 +160,10 @@ class Generator extends Model
      */
     protected function createStructure()
     {
-        $this->write("{$this->folder}/README.md", 'readme');
-        $this->write("{$this->folder}/.gitignore", 'gitignore');
-        $this->write("{$this->folder}/composer.json", 'composer');
-        $this->write("{$this->folder}/.scrutinizer.yml", 'scrutinizer');
+        $this->write("{$this->directory}/README.md", 'readme');
+        $this->write("{$this->directory}/.gitignore", 'gitignore');
+        $this->write("{$this->directory}/composer.json", 'composer');
+        $this->write("{$this->directory}/.scrutinizer.yml", 'scrutinizer');
 
         if (empty($this->data['structure'])) {
             return null;
@@ -191,8 +191,10 @@ class Generator extends Model
                     break;
                 case 'asset':
                     $this->createStructureAsset();
+                    break;
                 case 'locale':
                     $this->createStructureLocale();
+                    break;
             }
         }
     }
@@ -202,14 +204,34 @@ class Generator extends Model
      */
     protected function createStructureAsset()
     {
-        $subfolders = array(self::FOLDER_CSS, self::FOLDER_JS, self::FOLDER_IMAGE);
-
-        foreach ($subfolders as $subfolder) {
-            if ($this->prepareFolder("{$this->folder}/$subfolder")) {
-                $filename = $subfolder == self::FOLDER_IMAGE ? 'image.png' : "common.$subfolder";
-                $this->write("{$this->folder}/$subfolder/$filename", $subfolder);
+        foreach (array(self::FOLDER_CSS, self::FOLDER_JS) as $folder) {
+            if ($this->prepareFolder("{$this->directory}/$folder")) {
+                $this->write("{$this->directory}/$folder/common.$folder", $folder);
             }
         }
+
+        $this->generateImage();
+    }
+
+    /**
+     * Generate an image sample
+     * @return bool
+     */
+    protected function generateImage()
+    {
+        $directory = $this->directory . '/' . self::FOLDER_IMAGE;
+
+        if (!mkdir($directory, 0775, true)) {
+            return false;
+        }
+
+        $im = imagecreate(100, 100);
+        $bg = imagecolorallocate($im, 255, 255, 255);
+        $text = imagecolorallocate($im, 0, 0, 255);
+        imagestring($im, 5, 0, 0, $this->data['module']['name'], $text);
+        $result = imagepng($im, "$directory/image.png");
+        imagedestroy($im);
+        return $result;
     }
 
     /**
@@ -217,7 +239,7 @@ class Generator extends Model
      */
     protected function createStructureLocale()
     {
-        $folder = $this->folder . '/' . self::FOLDER_LOCALE;
+        $folder = $this->directory . '/' . self::FOLDER_LOCALE;
 
         if ($this->prepareFolder($folder)) {
             $name = $this->data['module']['name'];
@@ -230,7 +252,7 @@ class Generator extends Model
      */
     protected function createStructureController()
     {
-        $folder = $this->folder . '/' . self::FOLDER_CONTROLLER;
+        $folder = $this->directory . '/' . self::FOLDER_CONTROLLER;
 
         if ($this->prepareFolder($folder)) {
             $this->write("$folder/Settings.php", 'controller');
@@ -242,8 +264,8 @@ class Generator extends Model
      */
     protected function createMainClass()
     {
-        if ($this->prepareFolder($this->folder)) {
-            $this->write("{$this->folder}/{$this->data['module']['class_name']}.php", 'main');
+        if ($this->prepareFolder($this->directory)) {
+            $this->write("{$this->directory}/{$this->data['module']['class_name']}.php", 'main');
         }
     }
 
@@ -252,7 +274,7 @@ class Generator extends Model
      */
     protected function createStructureModel()
     {
-        $folder = $this->folder . '/' . self::FOLDER_MODEL;
+        $folder = $this->directory . '/' . self::FOLDER_MODEL;
 
         if ($this->prepareFolder($folder)) {
             $this->write("$folder/{$this->data['module']['class_name']}.php", 'model');
@@ -264,7 +286,7 @@ class Generator extends Model
      */
     protected function createStructureHelper()
     {
-        $folder = $this->folder . '/' . self::FOLDER_HELPER;
+        $folder = $this->directory . '/' . self::FOLDER_HELPER;
 
         if ($this->prepareFolder($folder)) {
             $this->write("$folder/{$this->data['module']['class_name']}.php", 'helper');
@@ -276,7 +298,7 @@ class Generator extends Model
      */
     protected function createStructureHandler()
     {
-        $folder = $this->folder . '/' . self::FOLDER_HANDLER;
+        $folder = $this->directory . '/' . self::FOLDER_HANDLER;
 
         if ($this->prepareFolder($folder)) {
             $this->write("$folder/{$this->data['module']['class_name']}.php", 'handler');
@@ -288,7 +310,7 @@ class Generator extends Model
      */
     protected function createStructureOverride()
     {
-        $folder = $this->folder . '/' . self::FOLDER_OVERRIDE . "/classes/modules/{$this->data['module']['id']}";
+        $folder = $this->directory . '/' . self::FOLDER_OVERRIDE . "/classes/modules/{$this->data['module']['id']}";
 
         if ($this->prepareFolder($folder)) {
             $this->write("$folder/{$this->data['module']['class_name']}Override.php", 'override');
@@ -300,7 +322,7 @@ class Generator extends Model
      */
     protected function createStructureTemplate()
     {
-        $folder = $this->folder . '/' . self::FOLDER_TEMPLATE;
+        $folder = $this->directory . '/' . self::FOLDER_TEMPLATE;
 
         if ($this->prepareFolder($folder)) {
             $this->write("$folder/settings.php", 'template');
@@ -313,14 +335,14 @@ class Generator extends Model
      */
     protected function createZip()
     {
-        $this->file = "{$this->folder}.zip";
+        $this->file = "{$this->directory}.zip";
 
         if (is_file($this->file)) {
             unlink($this->file);
         }
 
-        $result = $this->zip->folder($this->folder, $this->file, $this->data['module']['id']);
-        gplcart_file_delete_recursive($this->folder);
+        $result = $this->zip->folder($this->directory, $this->file, $this->data['module']['id']);
+        gplcart_file_delete_recursive($this->directory);
         return $result;
     }
 
@@ -346,7 +368,7 @@ class Generator extends Model
     /**
      * Prepares an array of data before rendering
      * @param array $data
-     * @return string
+     * @return array
      */
     protected function setData(array &$data)
     {
@@ -356,7 +378,7 @@ class Generator extends Model
         $data['module']['namespace'] = $this->config->getModuleClassNamespace($data['module']['id']);
         $data['module']['license_url'] = $licenses[$data['module']['license']] . ' ' . $data['module']['license'];
 
-        $this->folder = gplcart_file_unique(GC_PRIVATE_DOWNLOAD_DIR . "/skeleton/{$data['module']['id']}");
+        $this->directory = gplcart_file_unique(GC_PRIVATE_DOWNLOAD_DIR . "/skeleton/{$data['module']['id']}");
         return $this->data = $data;
     }
 

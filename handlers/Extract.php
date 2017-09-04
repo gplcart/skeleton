@@ -59,20 +59,20 @@ class Extract
         if (empty($extracted['files'])) {
             $job['status'] = false;
             $job['done'] = $job['total'];
-            return null;
-        }
+        } else {
 
-        if (!empty($extracted['success'])) {
-            $job['context']['extracted'] = array_replace($job['context']['extracted'], $extracted['success']);
-        }
+            if (!empty($extracted['success'])) {
+                $job['context']['extracted'] = array_replace($job['context']['extracted'], $extracted['success']);
+            }
 
-        if (!empty($extracted['errors'])) {
-            $job['errors'] += count($extracted['errors']);
-            $job['context']['errors'] += $extracted['errors'];
-        }
+            if (!empty($extracted['errors'])) {
+                $job['errors'] += count($extracted['errors']);
+                $job['context']['errors'] += $extracted['errors'];
+            }
 
-        $job['context']['offset'] += count($extracted['files']);
-        $job['done'] = $job['context']['offset'];
+            $job['context']['offset'] += count($extracted['files']);
+            $job['done'] = $job['context']['offset'];
+        }
     }
 
 }

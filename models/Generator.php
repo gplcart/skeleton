@@ -226,7 +226,7 @@ class Generator extends Model
         }
 
         $im = imagecreate(100, 100);
-        $bg = imagecolorallocate($im, 255, 255, 255);
+        imagecolorallocate($im, 255, 255, 255);
         $text = imagecolorallocate($im, 0, 0, 255);
         imagestring($im, 5, 0, 0, $this->data['module']['name'], $text);
         $result = imagepng($im, "$directory/image.png");

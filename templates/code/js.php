@@ -1,14 +1,14 @@
-/* global window, GplCart, jQuery */
-(function (window, GplCart, $) {
+/* global window, Gplcart, jQuery */
+(function (window, Gplcart, $) {
 
     "use strict";
 
     /**
      * This function will be called once DOM is ready
-     * GplCart.onload is a full equivalent of $(document).ready(function(){});
+     * Gplcart.onload is a full equivalent of $(document).ready(function(){});
      * @returns {undefined}
      */
-    GplCart.onload.callImmediately = function () {
+    Gplcart.onload.callImmediately = function () {
         // alert('Called callImmediately() function');
     };
 
@@ -20,4 +20,4 @@
         alert('Called myCustomFunction() function');
     };
 
-})(window, GplCart, jQuery);
+})(window, Gplcart, jQuery);

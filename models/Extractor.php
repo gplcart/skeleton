@@ -89,59 +89,16 @@ class Extractor extends Model
      */
     public function getHookScopes()
     {
-        $items = array(
-            'construct' => $this->language->text('Class construction'),
-            'destruct' => $this->language->text('Class destruction'),
-            'cli' => $this->language->text('Command line'),
-            'template' => $this->language->text('Templates'),
-            'theme' => $this->language->text('Theme'),
-            'library' => $this->language->text('Libraries'),
-            'route' => $this->language->text('URL'),
-            'cron' => $this->language->text('CRON'),
-            'address' => $this->language->text('User addresses'),
-            'backup' => $this->language->text('Backup'),
-            'cart' => $this->language->text('Shopping cart'),
-            'category' => $this->language->text('Categories'),
-            'city' => $this->language->text('Cities'),
-            'collection' => $this->language->text('Collections'),
-            'compare' => $this->language->text('Product comparison'),
-            'condition' => $this->language->text('Trigger conditions'),
-            'country' => $this->language->text('Countries'),
-            'currency' => $this->language->text('Currencies'),
-            'dashboard' => $this->language->text('Dashboard'),
-            'field' => $this->language->text('Product fields'),
-            'file' => $this->language->text('Files'),
-            'filter' => $this->language->text('Filters'),
-            'imagestyle' => $this->language->text('Images'),
-            'install' => $this->language->text('Installation'),
-            'job' => $this->language->text('Bulk jobs'),
-            'language' => $this->language->text('Localization'),
-            'mail' => $this->language->text('E-mail'),
-            'order' => $this->language->text('Orders'),
-            'page' => $this->language->text('Pages'),
-            'payment' => $this->language->text('Payment methods'),
-            'price' => $this->language->text('Prices'),
-            'product' => $this->language->text('Products'),
-            'rating' => $this->language->text('Ratings'),
-            'report' => $this->language->text('Reporting'),
-            'review' => $this->language->text('Reviews'),
-            'search' => $this->language->text('Searching'),
-            'shipping' => $this->language->text('Shipping methods'),
-            'sku' => $this->language->text('SKU'),
-            'state' => $this->language->text('Country states'),
-            'store' => $this->language->text('Stores'),
-            'transaction' => $this->language->text('Payment transactions'),
-            'trigger' => $this->language->text('Triggers'),
-            'user' => $this->language->text('Users'),
-            'validator' => $this->language->text('Validating'),
-            'wishlist' => $this->language->text('Wishlists'),
-            'zone' => $this->language->text('Geo zones'),
-            'module' => $this->language->text('Modules'),
-            'oauth' => $this->language->text('Oauth')
-        );
+        static $scopes = null;
 
-        asort($items);
-        return $items;
+        if (isset($scopes)) {
+            return $scopes;
+        }
+
+        $scopes = require __DIR__ . '/../config/scopes.php';
+
+        asort($scopes);
+        return $scopes;
     }
 
     /**
@@ -223,7 +180,7 @@ class Extractor extends Model
         foreach ($scanned as $file) {
             foreach ($this->parse($file) as $extracted) {
 
-                $extracted['file'] = gplcart_relative_path($file);
+                $extracted['file'] = gplcart_path_relative($file);
                 $prepared = $this->prepareHook($extracted);
 
                 // Filter by scopes

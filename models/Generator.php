@@ -341,7 +341,7 @@ class Generator extends Model
             unlink($this->file);
         }
 
-        $result = $this->zip->folder($this->directory, $this->file, $this->data['module']['id']);
+        $result = $this->zip->directory($this->directory, $this->file, $this->data['module']['id']);
         gplcart_file_delete_recursive($this->directory);
         return $result;
     }
@@ -378,7 +378,7 @@ class Generator extends Model
         $data['module']['namespace'] = $this->config->getModuleClassNamespace($data['module']['id']);
         $data['module']['license_url'] = $licenses[$data['module']['license']] . ' ' . $data['module']['license'];
 
-        $this->directory = gplcart_file_unique(GC_PRIVATE_DOWNLOAD_DIR . "/skeleton/{$data['module']['id']}");
+        $this->directory = gplcart_file_private_module('skeleton', $data['module']['id'], true);
         return $this->data = $data;
     }
 

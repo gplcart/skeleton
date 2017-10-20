@@ -83,10 +83,8 @@ class Skeleton extends Module
     {
         // Automatically delete created files older than 1 day
         $lifespan = 24*60*60;
-        $directory = GC_PRIVATE_DOWNLOAD_DIR . '/skeleton';
-        if (is_dir($directory)) {
-            gplcart_file_delete($directory, array('zip'), $lifespan);
-        }
+        $directory = gplcart_file_private_module('skeleton');
+        gplcart_file_empty($directory, array('zip'), $lifespan);
     }
 
 }

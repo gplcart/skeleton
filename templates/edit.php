@@ -131,7 +131,7 @@
               <?php foreach ($chunk as $group => $name) { ?>
               <div class="checkbox">
                 <label>
-                  <input type="checkbox" value="<?php echo $group; ?>" name="skeleton[hooks][]"<?php echo isset($skeleton['hooks']) && in_array($group, $skeleton['hooks']) ? ' checked' : ''; ?>> <?php echo $this->e($name); ?>
+                  <input type="checkbox" value="<?php echo $group; ?>" name="skeleton[hooks][]"<?php echo isset($skeleton['hooks']) && in_array($group, $skeleton['hooks']) ? ' checked' : ''; ?>> <?php echo $this->text($name); ?>
                 </label>
               </div>
               <?php } ?>

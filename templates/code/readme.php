@@ -1,7 +1,7 @@
 [![Build Status](https://scrutinizer-ci.com/g/gplcart/<?php echo $module['id']; ?>/badges/build.png?b=master)](https://scrutinizer-ci.com/g/gplcart/<?php echo $module['id']; ?>/build-status/master)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/gplcart/<?php echo $module['id']; ?>/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/gplcart/<?php echo $module['id']; ?>/?branch=master)
 
-<?php echo $module['name']; ?>is a [GPL Cart](https://github.com/gplcart/gplcart) module that does something.
+<?php echo $module['name']; ?> is a [GPL Cart](https://github.com/gplcart/gplcart) module that does something.
 
 **Installation**
 

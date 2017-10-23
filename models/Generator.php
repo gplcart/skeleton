@@ -389,7 +389,7 @@ class Generator extends Model
      */
     protected function render($template)
     {
-        $file = GC_MODULE_DIR . "/skeleton/templates/code/$template.php";
+        $file = GC_DIR_MODULE . "/skeleton/templates/code/$template.php";
 
         if (!is_file($file)) {
             return null;

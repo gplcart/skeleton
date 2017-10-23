@@ -192,7 +192,7 @@ class Skeleton extends BackendController
      */
     protected function getTotalExtractSkeleton()
     {
-        return (int) $this->extractor->scan(GC_CORE_DIR, true);
+        return (int) $this->extractor->scan(GC_DIR_CORE, true);
     }
 
     /**

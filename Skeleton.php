@@ -9,7 +9,8 @@
 
 namespace gplcart\modules\skeleton;
 
-use gplcart\core\Module;
+use gplcart\core\Module,
+    gplcart\core\Config;
 
 /**
  * Main class for Skeleton module
@@ -18,11 +19,11 @@ class Skeleton extends Module
 {
 
     /**
-     * Constructor
+     * @param Config $config
      */
-    public function __construct()
+    public function __construct(Config $config)
     {
-        parent::__construct();
+        parent::__construct($config);
     }
 
     /**
@@ -82,7 +83,7 @@ class Skeleton extends Module
     public function hookCron()
     {
         // Automatically delete created files older than 1 day
-        $lifespan = 24*60*60;
+        $lifespan = 24 * 60 * 60;
         $directory = gplcart_file_private_module('skeleton');
         gplcart_file_empty($directory, array('zip'), $lifespan);
     }

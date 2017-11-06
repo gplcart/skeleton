@@ -9,13 +9,12 @@
 
 namespace gplcart\modules\skeleton\models;
 
-use gplcart\core\Model;
 use gplcart\core\models\Language as LanguageModel;
 
 /**
  * Methods to extract hooks from source files
  */
-class Extractor extends Model
+class Extractor
 {
 
     /**
@@ -73,13 +72,10 @@ class Extractor extends Model
     protected $language;
 
     /**
-     * Constructor
      * @param LanguageModel $language
      */
     public function __construct(LanguageModel $language)
     {
-        parent::__construct();
-
         $this->language = $language;
     }
 
@@ -89,14 +85,7 @@ class Extractor extends Model
      */
     public function getHookScopes()
     {
-        static $scopes = null;
-
-        if (isset($scopes)) {
-            return $scopes;
-        }
-
-        $scopes = require __DIR__ . '/../config/scopes.php';
-
+        $scopes = gplcart_config_get(__DIR__ . '/../config/scopes.php');
         asort($scopes);
         return $scopes;
     }

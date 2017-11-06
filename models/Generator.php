@@ -9,14 +9,20 @@
 
 namespace gplcart\modules\skeleton\models;
 
-use gplcart\core\Model;
+use gplcart\core\Config;
 use gplcart\core\helpers\Zip as ZipHelper;
 
 /**
  * Methods to generate module skeletons
  */
-class Generator extends Model
+class Generator
 {
+
+    /**
+     * Config class instance
+     * @var \gplcart\core\Config $config
+     */
+    protected $config;
 
     /**
      * Name of folder that contains module controllers
@@ -93,13 +99,13 @@ class Generator extends Model
     protected $data = array();
 
     /**
+     * @param Config $config
      * @param ZipHelper $zip
      */
-    public function __construct(ZipHelper $zip)
+    public function __construct(Config $config, ZipHelper $zip)
     {
-        parent::__construct();
-
         $this->zip = $zip;
+        $this->config = $config;
     }
 
     /**
@@ -139,11 +145,11 @@ class Generator extends Model
     {
         $data = array(
             'name' => $this->data['module']['name'],
-            'version' => $this->data['module']['version'],
-            'description' => $this->data['module']['description'],
-            'author' => $this->data['module']['author'],
             'core' => $this->data['module']['core'],
-            'license' => $this->data['module']['license']
+            'author' => $this->data['module']['author'],
+            'license' => $this->data['module']['license'],
+            'version' => $this->data['module']['version'],
+            'description' => $this->data['module']['description']
         );
 
         if (!empty($this->data['structure']) && in_array('configurable', $this->data['structure'])) {
@@ -152,7 +158,7 @@ class Generator extends Model
         }
 
         $json = json_encode($data, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
-        file_put_contents("{$this->directory}/module.json", $json);
+        file_put_contents("$this->directory/module.json", $json);
     }
 
     /**
@@ -160,10 +166,10 @@ class Generator extends Model
      */
     protected function createStructure()
     {
-        $this->write("{$this->directory}/README.md", 'readme');
-        $this->write("{$this->directory}/.gitignore", 'gitignore');
-        $this->write("{$this->directory}/composer.json", 'composer');
-        $this->write("{$this->directory}/.scrutinizer.yml", 'scrutinizer');
+        $this->write("$this->directory/README.md", 'readme');
+        $this->write("$this->directory/.gitignore", 'gitignore');
+        $this->write("$this->directory/composer.json", 'composer');
+        $this->write("$this->directory/.scrutinizer.yml", 'scrutinizer');
 
         if (empty($this->data['structure'])) {
             return null;
@@ -205,8 +211,8 @@ class Generator extends Model
     protected function createStructureAsset()
     {
         foreach (array(self::FOLDER_CSS, self::FOLDER_JS) as $folder) {
-            if ($this->prepareFolder("{$this->directory}/$folder")) {
-                $this->write("{$this->directory}/$folder/common.$folder", $folder);
+            if ($this->prepareFolder("$this->directory/$folder")) {
+                $this->write("$this->directory/$folder/common.$folder", $folder);
             }
         }
 
@@ -219,7 +225,7 @@ class Generator extends Model
      */
     protected function generateImage()
     {
-        $directory = $this->directory . '/' . self::FOLDER_IMAGE;
+        $directory = "$this->directory/" . self::FOLDER_IMAGE;
 
         if (!mkdir($directory, 0775, true)) {
             return false;
@@ -239,7 +245,7 @@ class Generator extends Model
      */
     protected function createStructureLocale()
     {
-        $folder = $this->directory . '/' . self::FOLDER_LOCALE;
+        $folder = "$this->directory/" . self::FOLDER_LOCALE;
 
         if ($this->prepareFolder($folder)) {
             $name = $this->data['module']['name'];
@@ -252,7 +258,7 @@ class Generator extends Model
      */
     protected function createStructureController()
     {
-        $folder = $this->directory . '/' . self::FOLDER_CONTROLLER;
+        $folder = "$this->directory/" . self::FOLDER_CONTROLLER;
 
         if ($this->prepareFolder($folder)) {
             $this->write("$folder/Settings.php", 'controller');
@@ -265,7 +271,7 @@ class Generator extends Model
     protected function createMainClass()
     {
         if ($this->prepareFolder($this->directory)) {
-            $this->write("{$this->directory}/{$this->data['module']['class_name']}.php", 'main');
+            $this->write("$this->directory/{$this->data['module']['class_name']}.php", 'main');
         }
     }
 
@@ -274,7 +280,7 @@ class Generator extends Model
      */
     protected function createStructureModel()
     {
-        $folder = $this->directory . '/' . self::FOLDER_MODEL;
+        $folder = "$this->directory/" . self::FOLDER_MODEL;
 
         if ($this->prepareFolder($folder)) {
             $this->write("$folder/{$this->data['module']['class_name']}.php", 'model');
@@ -286,7 +292,7 @@ class Generator extends Model
      */
     protected function createStructureHelper()
     {
-        $folder = $this->directory . '/' . self::FOLDER_HELPER;
+        $folder = "$this->directory/" . self::FOLDER_HELPER;
 
         if ($this->prepareFolder($folder)) {
             $this->write("$folder/{$this->data['module']['class_name']}.php", 'helper');
@@ -298,7 +304,7 @@ class Generator extends Model
      */
     protected function createStructureHandler()
     {
-        $folder = $this->directory . '/' . self::FOLDER_HANDLER;
+        $folder = "$this->directory/" . self::FOLDER_HANDLER;
 
         if ($this->prepareFolder($folder)) {
             $this->write("$folder/{$this->data['module']['class_name']}.php", 'handler');
@@ -310,7 +316,7 @@ class Generator extends Model
      */
     protected function createStructureOverride()
     {
-        $folder = $this->directory . '/' . self::FOLDER_OVERRIDE . "/classes/modules/{$this->data['module']['id']}";
+        $folder = "$this->directory/" . self::FOLDER_OVERRIDE . "/classes/modules/{$this->data['module']['id']}";
 
         if ($this->prepareFolder($folder)) {
             $this->write("$folder/{$this->data['module']['class_name']}Override.php", 'override');
@@ -322,7 +328,7 @@ class Generator extends Model
      */
     protected function createStructureTemplate()
     {
-        $folder = $this->directory . '/' . self::FOLDER_TEMPLATE;
+        $folder = "$this->directory/" . self::FOLDER_TEMPLATE;
 
         if ($this->prepareFolder($folder)) {
             $this->write("$folder/settings.php", 'template');
@@ -335,7 +341,7 @@ class Generator extends Model
      */
     protected function createZip()
     {
-        $this->file = "{$this->directory}.zip";
+        $this->file = "$this->directory.zip";
 
         if (is_file($this->file)) {
             unlink($this->file);

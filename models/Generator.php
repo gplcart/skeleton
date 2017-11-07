@@ -57,7 +57,12 @@ class Generator
     /**
      * Name of folder that contains module translations
      */
-    const FOLDER_LOCALE = 'locale';
+    const FOLDER_LOCALE = 'translations';
+
+    /**
+     * Name of folder that contains module tests
+     */
+    const FOLDER_TEST = 'tests';
 
     /**
      * Name of folder that contains JS assets
@@ -201,6 +206,9 @@ class Generator
                 case 'locale':
                     $this->createStructureLocale();
                     break;
+                case 'tests':
+                    $this->createStructureTests();
+                    break;
             }
         }
     }
@@ -332,6 +340,21 @@ class Generator
 
         if ($this->prepareFolder($folder)) {
             $this->write("$folder/settings.php", 'template');
+        }
+    }
+
+    /**
+     * Creates files for unit testing
+     */
+    protected function createStructureTests()
+    {
+        $dir = "$this->directory/" . self::FOLDER_TEST;
+
+        if ($this->prepareFolder($dir)) {
+            $this->prepareFolder("$dir/support");
+            $this->write("$this->directory/phpunit.xml", 'test_xml');
+            $this->write("$dir/support/bootstrap.php", 'test_bootstrap');
+            $this->write("$dir/{$this->data['module']['class_name']}.php", 'test');
         }
     }
 

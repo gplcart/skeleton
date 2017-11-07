@@ -8,6 +8,7 @@
 namespace gplcart\modules\<?php echo $module['id']; ?>;
 
 use gplcart\core\Module;
+use gplcart\core\Config;
 
 /**
  * Main class for <?php echo $module['name']; ?> module
@@ -18,14 +19,13 @@ class <?php echo $module['class_name']; ?> extends Module
     /**
      * Constructor
      */
-    public function __construct()
+    public function __construct(Config $config)
     {
-        parent::__construct();
+        parent::__construct($config);
 
-      // WARNING: Any code placed here will be triggered on each page load across all the site.
-      // It may cause site-wide performance issues.
-      // DO NOT instantiate module specific classes here.
-      // Use $this->getInstance('namespace\\YourClass'); to get a class instance right in your methods.
+       // WARNING: Any code placed here will be triggered on each page load across all the site.
+       // It may cause site-wide performance issues.
+       // Avoid instantiating module specific classes here.
     }
 <?php if(!empty($hooks)) { ?><?php foreach($hooks as $hook) { ?>
     

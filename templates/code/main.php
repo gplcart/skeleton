@@ -7,8 +7,8 @@
 
 namespace gplcart\modules\<?php echo $module['id']; ?>;
 
-use gplcart\core\Module;
-use gplcart\core\Config;
+use gplcart\core\Module,
+    gplcart\core\Config;
 
 /**
  * Main class for <?php echo $module['name']; ?> module
@@ -17,7 +17,7 @@ use gplcart\core\Config;
 class <?php echo $module['class_name']; ?> extends Module 
 {
     /**
-     * Constructor
+     * @param Config $config
      */
     public function __construct(Config $config)
     {

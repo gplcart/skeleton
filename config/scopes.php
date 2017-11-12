@@ -8,6 +8,8 @@
  */
 return array(
     'alias' => /* @text */'URL aliases',
+    'bookmark' => /* @text */'Bookmarks',
+    'help' => /* @text */'Help',
     'construct' => /* @text */'Class construction',
     'destruct' => /* @text */'Class destruction',
     'cli' => /* @text */'Command line',

@@ -25,7 +25,6 @@ return array(
     'category' => /* @text */'Categories',
     'city' => /* @text */'Cities',
     'collection' => /* @text */'Collections',
-    'compare' => /* @text */'Product comparison',
     'condition' => /* @text */'Trigger conditions',
     'country' => /* @text */'Countries',
     'currency' => /* @text */'Currencies',

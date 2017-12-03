@@ -15,6 +15,7 @@ return array(
     'cli' => /* @text */'Command line',
     'template' => /* @text */'Templates',
     'theme' => /* @text */'Theme',
+    'translation' => /* @text */'Entity translations',
     'library' => /* @text */'Libraries',
     'route' => /* @text */'URL routing',
     'cron' => /* @text */'CRON',

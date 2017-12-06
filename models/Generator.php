@@ -9,7 +9,7 @@
 
 namespace gplcart\modules\skeleton\models;
 
-use gplcart\core\Config;
+use gplcart\core\Module;
 use gplcart\core\helpers\Zip as ZipHelper;
 
 /**
@@ -17,12 +17,6 @@ use gplcart\core\helpers\Zip as ZipHelper;
  */
 class Generator
 {
-
-    /**
-     * Config class instance
-     * @var \gplcart\core\Config $config
-     */
-    protected $config;
 
     /**
      * Name of folder that contains module controllers
@@ -80,6 +74,12 @@ class Generator
     const FOLDER_IMAGE = 'image';
 
     /**
+     * Module class instance
+     * @var \gplcart\core\Module $module
+     */
+    protected $module;
+
+    /**
      * Zip class instance
      * @var \gplcart\core\helpers\Zip $zip
      */
@@ -104,13 +104,13 @@ class Generator
     protected $data = array();
 
     /**
-     * @param Config $config
+     * @param Module $module
      * @param ZipHelper $zip
      */
-    public function __construct(Config $config, ZipHelper $zip)
+    public function __construct(Module $module, ZipHelper $zip)
     {
         $this->zip = $zip;
-        $this->config = $config;
+        $this->module = $module;
     }
 
     /**
@@ -403,8 +403,8 @@ class Generator
     {
         $licenses = $this->getLicenses();
 
-        $data['module']['class_name'] = $this->config->getModuleClassName($data['module']['id']);
-        $data['module']['namespace'] = $this->config->getModuleClassNamespace($data['module']['id']);
+        $data['module']['class_name'] = $this->module->getClassName($data['module']['id']);
+        $data['module']['namespace'] = $this->module->getClass($data['module']['id']);
         $data['module']['license_url'] = $licenses[$data['module']['license']] . ' ' . $data['module']['license'];
 
         $this->directory = gplcart_file_private_module('skeleton', $data['module']['id'], true);

@@ -9,22 +9,13 @@
 
 namespace gplcart\modules\skeleton;
 
-use gplcart\core\Module,
-    gplcart\core\Config;
+use gplcart\core\Container;
 
 /**
  * Main class for Skeleton module
  */
-class Skeleton extends Module
+class Skeleton
 {
-
-    /**
-     * @param Config $config
-     */
-    public function __construct(Config $config)
-    {
-        parent::__construct($config);
-    }
 
     /**
      * Implements hook "module.install.before"
@@ -82,10 +73,16 @@ class Skeleton extends Module
      */
     public function hookCron()
     {
-        // Automatically delete created files older than 1 day
-        $lifespan = 24 * 60 * 60;
-        $directory = gplcart_file_private_module('skeleton');
-        gplcart_file_empty($directory, array('zip'), $lifespan);
+        gplcart_file_empty(gplcart_file_private_module('skeleton'), array('zip'), 24 * 60 * 60);
+    }
+
+    /**
+     * Language model class instance
+     * @return \gplcart\core\models\Language
+     */
+    protected function getLanguage()
+    {
+        return Container::get('gplcart\\core\\models\\Language');
     }
 
 }

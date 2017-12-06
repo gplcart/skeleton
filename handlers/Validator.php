@@ -9,7 +9,8 @@
 
 namespace gplcart\modules\skeleton\handlers;
 
-use gplcart\core\Config;
+use gplcart\core\Config,
+    gplcart\core\Module;
 use gplcart\core\models\Language as LanguageModel;
 use gplcart\core\handlers\validator\Base as BaseValidator;
 
@@ -20,12 +21,21 @@ class Validator extends BaseValidator
 {
 
     /**
+     * Module class instance
+     * @var \gplcart\core\Module $module
+     */
+    protected $module;
+
+    /**
      * @param Config $config
      * @param LanguageModel $language
+     * @param Module $module
      */
-    public function __construct(Config $config, LanguageModel $language)
+    public function __construct(Config $config, LanguageModel $language, Module $module)
     {
         parent::__construct($config, $language);
+
+        $this->module = $module;
     }
 
     /**
@@ -79,7 +89,7 @@ class Validator extends BaseValidator
             return false;
         }
 
-        if (!$this->config->isValidModuleId($value)) {
+        if (!$this->module->isValidId($value)) {
             $vars = array('@field' => $this->language->text('ID'));
             $error = $this->language->text('@field has invalid value', $vars);
             $this->setError('module.id', $error);

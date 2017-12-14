@@ -9,9 +9,7 @@
 
 namespace gplcart\modules\skeleton\handlers;
 
-use gplcart\core\Config,
-    gplcart\core\Module;
-use gplcart\core\models\Language as LanguageModel;
+use gplcart\core\Module;
 use gplcart\core\handlers\validator\Base as BaseValidator;
 
 /**
@@ -27,13 +25,11 @@ class Validator extends BaseValidator
     protected $module;
 
     /**
-     * @param Config $config
-     * @param LanguageModel $language
      * @param Module $module
      */
-    public function __construct(Config $config, LanguageModel $language, Module $module)
+    public function __construct(Module $module)
     {
-        parent::__construct($config, $language);
+        parent::__construct();
 
         $this->module = $module;
     }
@@ -66,8 +62,8 @@ class Validator extends BaseValidator
         $value = $this->getSubmitted('module.author');
 
         if (empty($value)) {
-            $vars = array('@field' => $this->language->text('Author'));
-            $error = $this->language->text('@field is required', $vars);
+            $vars = array('@field' => $this->translation->text('Author'));
+            $error = $this->translation->text('@field is required', $vars);
             $this->setError('module.author', $error);
             return false;
         }
@@ -83,15 +79,15 @@ class Validator extends BaseValidator
         $value = $this->getSubmitted('module.id');
 
         if (empty($value)) {
-            $vars = array('@field' => $this->language->text('ID'));
-            $error = $this->language->text('@field is required', $vars);
+            $vars = array('@field' => $this->translation->text('ID'));
+            $error = $this->translation->text('@field is required', $vars);
             $this->setError('module.id', $error);
             return false;
         }
 
         if (!$this->module->isValidId($value)) {
-            $vars = array('@field' => $this->language->text('ID'));
-            $error = $this->language->text('@field has invalid value', $vars);
+            $vars = array('@field' => $this->translation->text('ID'));
+            $error = $this->translation->text('@field has invalid value', $vars);
             $this->setError('module.id', $error);
             return false;
         }
@@ -107,8 +103,8 @@ class Validator extends BaseValidator
         $value = $this->getSubmitted('module.version');
 
         if (empty($value)) {
-            $vars = array('@field' => $this->language->text('Version'));
-            $error = $this->language->text('@field is required', $vars);
+            $vars = array('@field' => $this->translation->text('Version'));
+            $error = $this->translation->text('@field is required', $vars);
             $this->setError('module.version', $error);
             return false;
         }
@@ -124,16 +120,16 @@ class Validator extends BaseValidator
         $value = $this->getSubmitted('module.core');
 
         if (empty($value)) {
-            $vars = array('@field' => $this->language->text('Core'));
-            $error = $this->language->text('@field is required', $vars);
+            $vars = array('@field' => $this->translation->text('Core'));
+            $error = $this->translation->text('@field is required', $vars);
             $this->setError('module.core', $error);
             return false;
         }
 
         // Check if the value starts with a number
         if (preg_match('/^\d/', $value) !== 1) {
-            $vars = array('@field' => $this->language->text('Core'));
-            $error = $this->language->text('@field has invalid value', $vars);
+            $vars = array('@field' => $this->translation->text('Core'));
+            $error = $this->translation->text('@field has invalid value', $vars);
             $this->setError('module.core', $error);
             return false;
         }

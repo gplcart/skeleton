@@ -14,7 +14,7 @@ use gplcart\core\Container;
 /**
  * Main class for Skeleton module
  */
-class Skeleton
+class Module
 {
 
     /**

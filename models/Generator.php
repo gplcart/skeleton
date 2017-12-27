@@ -403,8 +403,10 @@ class Generator
     {
         $licenses = $this->getLicenses();
 
-        $data['module']['class_name'] = $this->module->getClassName($data['module']['id']);
-        $data['module']['namespace'] = $this->module->getClass($data['module']['id']);
+        $class = $this->module->getClass($data['module']['id']);
+
+        $data['module']['namespace'] = $class;
+        $data['module']['class_name'] = substr($class, strrpos($class, '\\') + 1);
         $data['module']['license_url'] = $licenses[$data['module']['license']] . ' ' . $data['module']['license'];
 
         $this->directory = gplcart_file_private_module('skeleton', $data['module']['id'], true);

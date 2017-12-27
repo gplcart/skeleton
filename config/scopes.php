@@ -33,7 +33,7 @@ return array(
     'field' => /* @text */'Product fields',
     'file' => /* @text */'Files',
     'filter' => /* @text */'Filters',
-    'imagestyle' => /* @text */'Images',
+    'image' => /* @text */'Images',
     'install' => /* @text */'Installation',
     'job' => /* @text */'Bulk jobs',
     'language' => /* @text */'Localization',

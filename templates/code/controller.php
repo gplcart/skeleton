@@ -31,7 +31,7 @@ class Settings extends BackendController
         $this->setTitleEditSettings();
         $this->setBreadcrumbEditSettings();
     
-        $this->setData('settings', $this->module->getSettings('<?php echo $module['id']; ?>'));
+        $this->setData('settings', $this->getModuleSettings('<?php echo $module['id']; ?>'));
         
         $this->submitSettings();
         $this->outputEditSettings();

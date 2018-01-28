@@ -36,7 +36,7 @@
               <div class="help-block">
                   <?php echo $this->error('module.version'); ?>
                 <div class="text-muted">
-                  <?php echo $this->text('A version number. Enter whatever you want, but it\'s strongly recommended to follow <a href="@url">semantic versioning</a> guidelines', array('@url' => 'http://semver.org')); ?>
+                  <?php echo $this->text('A version number. Enter whatever you want, but it\'s strongly recommended to follow the <a href="@url">semantic versioning guidelines</a>', array('@url' => 'http://semver.org')); ?>
                 </div>
               </div>
             </div>
@@ -143,69 +143,75 @@
       <div class="panel panel-default">
         <div class="panel-heading"><?php echo $this->text('Structure'); ?></div>
         <div class="panel-body">
-          <p><?php echo $this->text('Extra options to setup your module the best way. Although GPL Cart has no strict requirements on how to organize your classes, it\'s recommended to follow common rules'); ?></p>
+          <p><?php echo $this->text('Extra options to setup your module the best way. Although GPL Cart has no strict requirements on how to organize your classes, it\'s recommended to follow the common rules'); ?></p>
           <div class="checkbox">
             <label>
-              <input type="checkbox" name="all-structure"> <?php echo $this->text('All'); ?>
+              <input type="checkbox" name="all-structure"> <?php echo $this->text('Select all'); ?>
             </label>
           </div>
           <div class="checkbox">
             <label>
-              <input type="checkbox" value="configurable" name="skeleton[structure][]"<?php echo isset($skeleton['configurable']) && in_array('configurable', $skeleton['structure']) ? ' checked' : ''; ?>> <?php echo $this->text('Configurable'); ?>
+              <input type="checkbox" value="configurable" name="skeleton[structure][]"<?php echo isset($skeleton['structure']) && in_array('configurable', $skeleton['structure']) ? ' checked' : ''; ?>> <?php echo $this->text('Configurable'); ?>
             </label>
             <div class="help-block"><?php echo $this->text('Has configurable settings which can be adjusted on a separate page'); ?></div>
           </div>
           <div class="checkbox">
             <label>
-              <input type="checkbox" value="locale" name="skeleton[structure][]"<?php echo isset($skeleton['structure']) && in_array('locale', $skeleton['structure']) ? ' checked' : ''; ?>> <?php echo $this->text('Use translations'); ?>
+              <input type="checkbox" value="config_files" name="skeleton[structure][]"<?php echo isset($skeleton['structure']) && in_array('config_files', $skeleton['structure']) ? ' checked' : ''; ?>> <?php echo $this->text('Uses config files'); ?>
             </label>
-            <div class="help-block"><?php echo $this->text('This module provides translation file(s) to translate UI'); ?></div>
+            <div class="help-block"><?php echo $this->text('Has files with arrays of configuration options'); ?></div>
           </div>
           <div class="checkbox">
             <label>
-              <input type="checkbox" value="controller" name="skeleton[structure][]"<?php echo isset($skeleton['structure']) && in_array('controller', $skeleton['structure']) ? ' checked' : ''; ?>> <?php echo $this->text('Use controllers'); ?>
+              <input type="checkbox" value="locale" name="skeleton[structure][]"<?php echo isset($skeleton['structure']) && in_array('locale', $skeleton['structure']) ? ' checked' : ''; ?>> <?php echo $this->text('Uses translations'); ?>
             </label>
-            <div class="help-block"><?php echo $this->text('Controllers provide callbacks for URL routes and interact with browser or external resources'); ?></div>
+            <div class="help-block"><?php echo $this->text('Provides translation file(s) for translating UI'); ?></div>
           </div>
           <div class="checkbox">
             <label>
-              <input type="checkbox" value="helper" name="skeleton[structure][]"<?php echo isset($skeleton['structure']) && in_array('helper', $skeleton['structure']) ? ' checked' : ''; ?>> <?php echo $this->text('Use helpers'); ?>
+              <input type="checkbox" value="controller" name="skeleton[structure][]"<?php echo isset($skeleton['structure']) && in_array('controller', $skeleton['structure']) ? ' checked' : ''; ?>> <?php echo $this->text('Uses controllers'); ?>
             </label>
-            <div class="help-block"><?php echo $this->text('Helper classes provide independent reusable methods to be used everywhere'); ?></div>
+            <div class="help-block"><?php echo $this->text('Controllers provide callbacks for URL routes and can interact with browser or external resources'); ?></div>
           </div>
           <div class="checkbox">
             <label>
-              <input type="checkbox" value="handler" name="skeleton[structure][]"<?php echo isset($skeleton['structure']) && in_array('handler', $skeleton['structure']) ? ' checked' : ''; ?>> <?php echo $this->text('Use handlers'); ?>
+              <input type="checkbox" value="helper" name="skeleton[structure][]"<?php echo isset($skeleton['structure']) && in_array('helper', $skeleton['structure']) ? ' checked' : ''; ?>> <?php echo $this->text('Uses helpers'); ?>
+            </label>
+            <div class="help-block"><?php echo $this->text('Helper classes provide independent reusable methods that can be used by this or any other module'); ?></div>
+          </div>
+          <div class="checkbox">
+            <label>
+              <input type="checkbox" value="handler" name="skeleton[structure][]"<?php echo isset($skeleton['structure']) && in_array('handler', $skeleton['structure']) ? ' checked' : ''; ?>> <?php echo $this->text('Uses handlers'); ?>
             </label>
             <div class="help-block"><?php echo $this->text('Handler classes are defined in hooks and focused on certain tasks, e.g validating'); ?></div>
           </div>
           <div class="checkbox">
             <label>
-              <input type="checkbox" value="template" name="skeleton[structure][]"<?php echo isset($skeleton['structure']) && in_array('template', $skeleton['structure']) ? ' checked' : ''; ?>> <?php echo $this->text('Use templates'); ?>
+              <input type="checkbox" value="template" name="skeleton[structure][]"<?php echo isset($skeleton['structure']) && in_array('template', $skeleton['structure']) ? ' checked' : ''; ?>> <?php echo $this->text('Uses templates'); ?>
             </label>
-            <div class="help-block"><?php echo $this->text('Templates display various data from controllers to users'); ?></div>
+            <div class="help-block"><?php echo $this->text('Templates display various data defined in controllers'); ?></div>
           </div>
           <div class="checkbox">
             <label>
-              <input type="checkbox" value="model" name="skeleton[structure][]"<?php echo isset($skeleton['structure']) && in_array('model', $skeleton['structure']) ? ' checked' : ''; ?>> <?php echo $this->text('Use models'); ?>
+              <input type="checkbox" value="model" name="skeleton[structure][]"<?php echo isset($skeleton['structure']) && in_array('model', $skeleton['structure']) ? ' checked' : ''; ?>> <?php echo $this->text('Uses models'); ?>
             </label>
             <div class="help-block"><?php echo $this->text('Models provide a business logic and can interact with database'); ?></div>
           </div>
           <div class="checkbox">
             <label>
-              <input type="checkbox" value="asset" name="skeleton[structure][]"<?php echo isset($skeleton['structure']) && in_array('asset', $skeleton['structure']) ? ' checked' : ''; ?>> <?php echo $this->text('Use assets'); ?>
+              <input type="checkbox" value="asset" name="skeleton[structure][]"<?php echo isset($skeleton['structure']) && in_array('asset', $skeleton['structure']) ? ' checked' : ''; ?>> <?php echo $this->text('Uses assets'); ?>
             </label>
             <div class="help-block"><?php echo $this->text('Assets are JS/CSS files and images. Required for theme modules'); ?></div>
           </div>
           <div class="checkbox">
             <label>
-              <input type="checkbox" value="override" name="skeleton[structure][]"<?php echo isset($skeleton['structure']) && in_array('override', $skeleton['structure']) ? ' checked' : ''; ?>> <?php echo $this->text('Use overrides'); ?>
+              <input type="checkbox" value="override" name="skeleton[structure][]"<?php echo isset($skeleton['structure']) && in_array('override', $skeleton['structure']) ? ' checked' : ''; ?>> <?php echo $this->text('Uses overrides'); ?>
             </label>
-            <div class="help-block"><?php echo $this->text('Overriding allows developers to adjust core methods without touching core files'); ?></div>
+            <div class="help-block"><?php echo $this->text('Overriding allows developers to adjust different core methods without touching the source code'); ?></div>
           </div>
           <div class="checkbox">
             <label>
-              <input type="checkbox" value="tests" name="skeleton[structure][]"<?php echo isset($skeleton['structure']) && in_array('tests', $skeleton['structure']) ? ' checked' : ''; ?>> <?php echo $this->text('Use tests'); ?>
+              <input type="checkbox" value="tests" name="skeleton[structure][]"<?php echo isset($skeleton['structure']) && in_array('tests', $skeleton['structure']) ? ' checked' : ''; ?>> <?php echo $this->text('Uses tests'); ?>
             </label>
             <div class="help-block"><?php echo $this->text('Unit testing for module methods using PHPUnit framework'); ?></div>
           </div>

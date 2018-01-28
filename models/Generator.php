@@ -9,69 +9,14 @@
 
 namespace gplcart\modules\skeleton\models;
 
-use gplcart\core\Module;
 use gplcart\core\helpers\Zip as ZipHelper;
+use gplcart\core\Module;
 
 /**
  * Methods to generate module skeletons
  */
 class Generator
 {
-
-    /**
-     * Name of folder that contains module controllers
-     */
-    const FOLDER_CONTROLLER = 'controllers';
-
-    /**
-     * Name of folder that contains module helpers
-     */
-    const FOLDER_HELPER = 'helpers';
-
-    /**
-     * Name of folder that contains module models
-     */
-    const FOLDER_MODEL = 'models';
-
-    /**
-     * Name of folder that contains module handlers
-     */
-    const FOLDER_HANDLER = 'handlers';
-
-    /**
-     * Name of folder that contains module templates
-     */
-    const FOLDER_TEMPLATE = 'templates';
-
-    /**
-     * Name of folder that contains module overrides
-     */
-    const FOLDER_OVERRIDE = 'override';
-
-    /**
-     * Name of folder that contains module translations
-     */
-    const FOLDER_LOCALE = 'translations';
-
-    /**
-     * Name of folder that contains module tests
-     */
-    const FOLDER_TEST = 'tests';
-
-    /**
-     * Name of folder that contains JS assets
-     */
-    const FOLDER_JS = 'js';
-
-    /**
-     * Name of folder that contains CSS assets
-     */
-    const FOLDER_CSS = 'css';
-
-    /**
-     * Name of folder that contains images
-     */
-    const FOLDER_IMAGE = 'image';
 
     /**
      * Module class instance
@@ -120,7 +65,7 @@ class Generator
     public function getLicenses()
     {
         return array(
-            'GPL-3.0+' => 'https://www.gnu.org/licenses/gpl-3.0.en.html',
+            'GPL-3.0-or-later' => 'https://www.gnu.org/licenses/gpl-3.0.en.html',
             'MIT' => 'https://opensource.org/licenses/MIT',
             'Apache-2.0' => 'https://www.apache.org/licenses/LICENSE-2.0',
             'BSD-3-Clause' => 'https://opensource.org/licenses/BSD-3-Clause'
@@ -204,10 +149,13 @@ class Generator
                     $this->createStructureAsset();
                     break;
                 case 'locale':
-                    $this->createStructureLocale();
+                    $this->createStructureTranslation();
                     break;
                 case 'tests':
                     $this->createStructureTests();
+                    break;
+                case 'config_files':
+                    $this->createStructureConfigFiles();
                     break;
             }
         }
@@ -218,7 +166,7 @@ class Generator
      */
     protected function createStructureAsset()
     {
-        foreach (array(self::FOLDER_CSS, self::FOLDER_JS) as $folder) {
+        foreach (array('css', 'js') as $folder) {
             if ($this->prepareFolder("$this->directory/$folder")) {
                 $this->write("$this->directory/$folder/common.$folder", $folder);
             }
@@ -233,7 +181,7 @@ class Generator
      */
     protected function generateImage()
     {
-        $directory = "$this->directory/" . self::FOLDER_IMAGE;
+        $directory = "$this->directory/image";
 
         if (!mkdir($directory, 0775, true)) {
             return false;
@@ -249,11 +197,11 @@ class Generator
     }
 
     /**
-     * Creates locale structure
+     * Creates translations structure
      */
-    protected function createStructureLocale()
+    protected function createStructureTranslation()
     {
-        $folder = "$this->directory/" . self::FOLDER_LOCALE;
+        $folder = "$this->directory/translations";
 
         if ($this->prepareFolder($folder)) {
             $name = $this->data['module']['name'];
@@ -266,7 +214,7 @@ class Generator
      */
     protected function createStructureController()
     {
-        $folder = "$this->directory/" . self::FOLDER_CONTROLLER;
+        $folder = "$this->directory/controllers";
 
         if ($this->prepareFolder($folder)) {
             $this->write("$folder/Settings.php", 'controller');
@@ -288,7 +236,7 @@ class Generator
      */
     protected function createStructureModel()
     {
-        $folder = "$this->directory/" . self::FOLDER_MODEL;
+        $folder = "$this->directory/models";
 
         if ($this->prepareFolder($folder)) {
             $this->write("$folder/{$this->data['module']['class_name']}.php", 'model');
@@ -300,7 +248,7 @@ class Generator
      */
     protected function createStructureHelper()
     {
-        $folder = "$this->directory/" . self::FOLDER_HELPER;
+        $folder = "$this->directory/helpers";
 
         if ($this->prepareFolder($folder)) {
             $this->write("$folder/{$this->data['module']['class_name']}.php", 'helper');
@@ -312,7 +260,7 @@ class Generator
      */
     protected function createStructureHandler()
     {
-        $folder = "$this->directory/" . self::FOLDER_HANDLER;
+        $folder = "$this->directory/handlers";
 
         if ($this->prepareFolder($folder)) {
             $this->write("$folder/{$this->data['module']['class_name']}.php", 'handler');
@@ -324,7 +272,7 @@ class Generator
      */
     protected function createStructureOverride()
     {
-        $folder = "$this->directory/" . self::FOLDER_OVERRIDE . "/classes/modules/{$this->data['module']['id']}";
+        $folder = "$this->directory/override/classes/modules/{$this->data['module']['id']}";
 
         if ($this->prepareFolder($folder)) {
             $this->write("$folder/{$this->data['module']['class_name']}Override.php", 'override');
@@ -336,7 +284,7 @@ class Generator
      */
     protected function createStructureTemplate()
     {
-        $folder = "$this->directory/" . self::FOLDER_TEMPLATE;
+        $folder = "$this->directory/templates";
 
         if ($this->prepareFolder($folder)) {
             $this->write("$folder/settings.php", 'template');
@@ -348,13 +296,25 @@ class Generator
      */
     protected function createStructureTests()
     {
-        $dir = "$this->directory/" . self::FOLDER_TEST;
+        $dir = "$this->directory/tests";
 
         if ($this->prepareFolder($dir)) {
             $this->prepareFolder("$dir/support");
             $this->write("$this->directory/phpunit.xml", 'test_xml');
             $this->write("$dir/support/bootstrap.php", 'test_bootstrap');
             $this->write("$dir/{$this->data['module']['class_name']}.php", 'test');
+        }
+    }
+
+    /**
+     * Creates config files structure
+     */
+    protected function createStructureConfigFiles()
+    {
+        $dir = "$this->directory/config";
+
+        if ($this->prepareFolder($dir)) {
+            $this->write("$dir/common.php", 'config');
         }
     }
 
@@ -402,7 +362,6 @@ class Generator
     protected function setData(array &$data)
     {
         $licenses = $this->getLicenses();
-
         $class = $this->module->getClass($data['module']['id']);
 
         $data['module']['namespace'] = $class;

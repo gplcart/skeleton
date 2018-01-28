@@ -36,8 +36,7 @@ class Skeleton extends BackendController
      * @param SkeletonExtractorModel $extractor
      * @param SkeletonGeneratorModel $generator
      */
-    public function __construct(SkeletonExtractorModel $extractor,
-            SkeletonGeneratorModel $generator)
+    public function __construct(SkeletonExtractorModel $extractor, SkeletonGeneratorModel $generator)
     {
         parent::__construct();
 

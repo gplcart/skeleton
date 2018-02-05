@@ -9,8 +9,8 @@
 
 namespace gplcart\modules\skeleton\handlers;
 
-use gplcart\core\Module;
 use gplcart\core\handlers\validator\Base as BaseValidator;
+use gplcart\core\Module;
 
 /**
  * Provides methods to validate Skeleton module data
@@ -29,8 +29,6 @@ class Validator extends BaseValidator
      */
     public function __construct(Module $module)
     {
-        parent::__construct();
-
         $this->module = $module;
     }
 

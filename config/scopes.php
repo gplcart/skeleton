@@ -10,6 +10,7 @@ return array(
     'alias' => 'URL aliases', // @text
     'bookmark' => 'Bookmarks', // @text
     'help' => 'Help', // @text
+    'http' => 'HTTP requests', // @text
     'construct' => 'Class construction', // @text
     'destruct' => 'Class destruction', // @text
     'cli' => 'Command line', // @text

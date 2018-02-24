@@ -9,14 +9,14 @@
 
 namespace gplcart\modules\skeleton\controllers;
 
-use gplcart\modules\skeleton\models\Generator as SkeletonGeneratorModel,
-    gplcart\modules\skeleton\models\Extractor as SkeletonExtractorModel;
-use gplcart\core\controllers\backend\Controller as BackendController;
+use gplcart\core\controllers\backend\Controller;
+use gplcart\modules\skeleton\models\Extractor;
+use gplcart\modules\skeleton\models\Generator;
 
 /**
  * Handles incoming requests and outputs data related to Skeleton module
  */
-class Skeleton extends BackendController
+class Skeleton extends Controller
 {
 
     /**
@@ -32,11 +32,11 @@ class Skeleton extends BackendController
     protected $generator;
 
     /**
-     * Constructor
-     * @param SkeletonExtractorModel $extractor
-     * @param SkeletonGeneratorModel $generator
+     * Skeleton constructor.
+     * @param Extractor $extractor
+     * @param Generator $generator
      */
-    public function __construct(SkeletonExtractorModel $extractor, SkeletonGeneratorModel $generator)
+    public function __construct(Extractor $extractor, Generator $generator)
     {
         parent::__construct();
 
@@ -50,7 +50,6 @@ class Skeleton extends BackendController
     public function editSkeleton()
     {
         $this->downloadSkeleton();
-
         $this->setTitleEditSkeleton();
         $this->setBreadcrumbEditSkeleton();
 
@@ -69,29 +68,25 @@ class Skeleton extends BackendController
 
     /**
      * Generate a module skeleton after hook extraction
-     * @return null
      */
     protected function generateFromJobSkeleton()
     {
-        if (!$this->isQuery('skeleton_hooks_extracted')) {
-            return null;
+        if ($this->isQuery('skeleton_hooks_extracted')) {
+
+            $job = $this->job->get('skeleton');
+
+            if (isset($job['context']['extracted'])) {
+
+                $data = $job['data']['submitted'];
+                $data['hooks'] = $job['context']['extracted'];
+
+                if (!empty($job['errors'])) {
+                    $this->setMessage($this->text('@num errors occurred during hook extraction'), 'warning', true);
+                }
+
+                $this->generateSkeleton($data);
+            }
         }
-
-        $job = $this->job->get('skeleton');
-
-        if (!isset($job['context']['extracted'])) {
-            return null;
-        }
-
-        $data = $job['data']['submitted'];
-        $data['hooks'] = $job['context']['extracted'];
-
-        if (!empty($job['errors'])) {
-            $this->setMessage($this->text('@num errors occurred during hook extraction'), 'warning', true);
-        }
-
-        $this->generateSkeleton($data);
-        return null;
     }
 
     /**
@@ -110,14 +105,35 @@ class Skeleton extends BackendController
     protected function validateSkeleton()
     {
         $this->setSubmitted('skeleton', null, false);
-        $this->validateComponent('skeleton');
+
+        $this->validateElement('module.id', 'required');
+        $this->validateElement('module.core', 'required');
+        $this->validateElement('module.author', 'required');
+        $this->validateElement('module.version', 'required');
+
+        if ($this->hasErrors()) {
+            return false;
+        }
+
+        $module_id = $this->getSubmitted('module.id');
+
+        if (!$this->module->isValidId($module_id)) {
+            $error = $this->text('@field has invalid value', array('@field' => $this->text('ID')));
+            $this->setError('module.id', $error);
+        }
+
+        $core = $this->getSubmitted('module.core');
+
+        if (preg_match('/^\d/', $core) !== 1) {
+            $error = $this->text('@field has invalid value', array('@field' => $this->text('Core')));
+            $this->setError('module.core', $error);
+        }
 
         if ($this->hasErrors()) {
             return false;
         }
 
         $name = $this->getSubmitted('module.name');
-        $module_id = $this->getSubmitted('module.id');
 
         if (empty($name)) {
             $this->setSubmitted('module.name', $module_id);
@@ -199,14 +215,12 @@ class Skeleton extends BackendController
      */
     protected function setBreadcrumbEditSkeleton()
     {
-        $breadcrumbs = array();
-
-        $breadcrumbs[] = array(
+        $breadcrumb = array(
             'text' => $this->text('Dashboard'),
             'url' => $this->url('admin')
         );
 
-        $this->setBreadcrumbs($breadcrumbs);
+        $this->setBreadcrumb($breadcrumb);
     }
 
     /**

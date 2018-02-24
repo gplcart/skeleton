@@ -1,7 +1,10 @@
 {
-    "name": "Skeleton",
-    "version": "1.0.0-dev",
-    "description": "A tool that allows developers to generate blank modules for different purposes",
-    "author": "Iurii Makukh",
-    "core": "1.x"
+  "name": "Skeleton",
+  "version": "1.0.0-dev",
+  "description": "A tool that allows developers to generate blank modules for different purposes",
+  "author": "Iurii Makukh",
+  "core": "1.x",
+  "extensions": [
+    "zip"
+  ]
 }

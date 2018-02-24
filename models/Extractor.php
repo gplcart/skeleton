@@ -9,7 +9,7 @@
 
 namespace gplcart\modules\skeleton\models;
 
-use gplcart\core\models\Language as LanguageModel;
+use RuntimeException;
 
 /**
  * Methods to extract hooks from source files
@@ -30,22 +30,22 @@ class Extractor
     /**
      * Pattern to extract hook arguments
      */
-    const PATTERN_HOOK = '/->attach\s*\(\s*(.+?)\s*\)/s';
+    const PATTERN_HOOK = '/->attach\(\s*(.+?)\s*\)/s';
 
     /**
      * Pattern to extract method names
      */
-    const PATTERN_FUNCTION = '/function\s+(\w+)\s*\(/';
+    const PATTERN_FUNCTION = '/function +(\w+)\s*\(/';
 
     /**
      * Pattern to extract class namespaces
      */
-    const PATTERN_NAMESPACE = '/^namespace\s+(.+?)\s*;/';
+    const PATTERN_NAMESPACE = '/^namespace +(.+?)\s*;/';
 
     /**
      * Pattern to extract class names
      */
-    const PATTERN_CLASS = '/(?:^| )class\s+(.+?)(\s+|\n\r|$)/';
+    const PATTERN_CLASS = '/(?:^abstract +|^)class +(.+?)(\s+|\n\r|$)/';
 
     /**
      * The current method while parsing hooks
@@ -64,20 +64,6 @@ class Extractor
      * @var string
      */
     protected $current_class;
-
-    /**
-     * Language model instance
-     * @var \gplcart\core\models\Language $language
-     */
-    protected $language;
-
-    /**
-     * @param LanguageModel $language
-     */
-    public function __construct(LanguageModel $language)
-    {
-        $this->language = $language;
-    }
 
     /**
      * Returns an array of hook scopes/types
@@ -105,7 +91,7 @@ class Extractor
         // Use strtok() to get everything before | which separates hook name and module ID
         $name = strtok(preg_replace('/^(\'(.*)\'|"(.*)")$/', '$2$3', array_shift($exploded)), '|');
 
-        array_walk($exploded, function(&$param) {
+        array_walk($exploded, function (&$param) {
             if (strpos($param, '$') === 0) {
                 $param = "&$param";
             }
@@ -172,14 +158,11 @@ class Extractor
                 $extracted['file'] = gplcart_path_relative($file);
                 $prepared = $this->prepareHook($extracted);
 
-                // Filter by scopes
                 if (!empty($options['scopes']) && !$this->inScope($prepared['hook']['name'], $options['scopes'])) {
                     continue;
                 }
 
-                // Test extracted class and method
                 if (!method_exists($prepared['namespaced_class'], $prepared['function'])) {
-                    trigger_error("Extracted method {$prepared['namespaced_class']}::{$prepared['function']} does not exist");
                     $errors[$prepared['hook']['name']] = $prepared;
                     continue;
                 }
@@ -188,7 +171,11 @@ class Extractor
             }
         }
 
-        return array('success' => $success, 'errors' => $errors, 'files' => $scanned);
+        return array(
+            'success' => $success,
+            'errors' => $errors,
+            'files' => $scanned
+        );
     }
 
     /**
@@ -212,6 +199,7 @@ class Extractor
      * Returns an array of extracted hooks from a single file
      * @param string $file
      * @return array
+     * @throws RuntimeException
      */
     public function parse($file)
     {
@@ -220,8 +208,7 @@ class Extractor
         $handle = fopen($file, 'r');
 
         if (!is_resource($handle)) {
-            trigger_error("Failed to open file $file");
-            return array();
+            throw new RuntimeException("Failed to open file $file");
         }
 
         $row = 0;
@@ -282,7 +269,7 @@ class Extractor
      */
     public function scan($directory, $count = false)
     {
-        $files = array_filter(gplcart_file_scan_recursive($directory), function($file) {
+        $files = array_filter(gplcart_file_scan_recursive($directory), function ($file) {
             return pathinfo($file, PATHINFO_EXTENSION) === 'php';
         });
 

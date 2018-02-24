@@ -9,7 +9,8 @@
 
 namespace gplcart\modules\skeleton\handlers;
 
-use gplcart\modules\skeleton\models\Extractor as SkeletonExtractorModel;
+use Exception;
+use gplcart\modules\skeleton\models\Extractor;
 
 class Extract
 {
@@ -26,10 +27,10 @@ class Extract
     protected $extractor;
 
     /**
-     * Constructor
-     * @param SkeletonExtractorModel $extractor
+     * Extract constructor.
+     * @param Extractor $extractor
      */
-    public function __construct(SkeletonExtractorModel $extractor)
+    public function __construct(Extractor $extractor)
     {
         $this->extractor = $extractor;
     }
@@ -37,6 +38,7 @@ class Extract
     /**
      * Processes one extration job iteration
      * @param array $job
+     * @return null
      */
     public function process(array &$job)
     {
@@ -54,25 +56,31 @@ class Extract
             'scopes' => empty($job['data']['submitted']['hooks']) ? array() : $job['data']['submitted']['hooks']
         );
 
-        $extracted = $this->extractor->getHooks($options);
+        try {
+            $extracted = $this->extractor->getHooks($options);
+        } catch (Exception $ex) {
+            $job['context']['errors'] = array($ex->getMessage());
+            $job['status'] = false;
+            return null;
+        }
 
         if (empty($extracted['files'])) {
             $job['status'] = false;
             $job['done'] = $job['total'];
-        } else {
-
-            if (!empty($extracted['success'])) {
-                $job['context']['extracted'] = array_replace($job['context']['extracted'], $extracted['success']);
-            }
-
-            if (!empty($extracted['errors'])) {
-                $job['errors'] += count($extracted['errors']);
-                $job['context']['errors'] += $extracted['errors'];
-            }
-
-            $job['context']['offset'] += count($extracted['files']);
-            $job['done'] = $job['context']['offset'];
+            return null;
         }
+
+        if (!empty($extracted['success'])) {
+            $job['context']['extracted'] = array_replace($job['context']['extracted'], $extracted['success']);
+        }
+
+        if (!empty($extracted['errors'])) {
+            $job['errors'] += count($extracted['errors']);
+            $job['context']['errors'] += $extracted['errors'];
+        }
+
+        $job['context']['offset'] += count($extracted['files']);
+        $job['done'] = $job['context']['offset'];
     }
 
 }

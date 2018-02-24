@@ -8,18 +8,7 @@
     "shopping cart",
     "gplcart-module"
   ],
-  "homepage": "https://github.com/gplcart/skeleton",
   "license": "GPL-3.0-or-later",
-  "authors": [
-    {
-      "name": "Iurii Makukh",
-      "email": "gplcart.software@gmail.com",
-      "role": "lead"
-    }
-  ],
-  "support": {
-    "issues": "https://github.com/gplcart/skeleton/issues"
-  },
   "require": {
     "gplcart/composer-module-installer": "*",
     "ext-zip": "*"

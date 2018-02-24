@@ -9,7 +9,7 @@
 
 namespace gplcart\modules\skeleton\models;
 
-use gplcart\core\helpers\Zip as ZipHelper;
+use gplcart\core\helpers\Zip;
 use gplcart\core\Module;
 
 /**
@@ -49,10 +49,11 @@ class Generator
     protected $data = array();
 
     /**
+     * Generator constructor.
      * @param Module $module
-     * @param ZipHelper $zip
+     * @param Zip $zip
      */
-    public function __construct(Module $module, ZipHelper $zip)
+    public function __construct(Module $module, Zip $zip)
     {
         $this->zip = $zip;
         $this->module = $module;

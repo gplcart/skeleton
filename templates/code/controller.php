@@ -7,21 +7,14 @@
  
 namespace gplcart\modules\<?php echo $module['id']; ?>\controllers;
 
-use gplcart\core\controllers\backend\Controller as BackendController;
+use gplcart\core\controllers\backend\Controller;
 
 /**
  * Handles incoming requests and outputs data related to <?php echo $module['name']; ?> module
  * @todo Format the source code
  */
-class Settings extends BackendController
+class Settings extends Controller
 {
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
     
     /**
      * Route page callback to display the module settings page
